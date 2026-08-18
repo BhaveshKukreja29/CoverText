@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.env
+
+# model / dataset caches and generated results — regenerate locally, don't commit
+/data/*
+!/data/.gitkeep
+/results/*
+!/results/.gitkeep
+
+.DS_Store
+.claude/
