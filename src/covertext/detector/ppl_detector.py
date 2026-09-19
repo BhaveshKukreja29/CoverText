@@ -40,6 +40,12 @@ class PPLDetector(Detector):
     mean conditional entropy deficit ``-log P(x_t) - H(P_t)``. Natural text
     has expectation 0; stego steering yields a positive deficit. Scoring
     requires ``calibrate()`` first.
+
+    ``score`` is a two-sided anomaly detector: deviations *below* the clean
+    reference (unusually fluent text) and *above* it (typical stego inflation of
+    PPL / entropy deficit) are treated the same. Stego usually increases both
+    statistics; the absolute deviation is kept so calibration remains
+    well-defined when a sample is atypically fluent.
     """
 
     def __init__(
@@ -141,6 +147,11 @@ class PPLDetector(Detector):
     def _deviation_score(
         self, value: float, reference: float | None, std: float | None
     ) -> float:
+        """Map |value - reference| / scale through a sigmoid.
+
+        The absolute value is intentional: both unusually high and unusually
+        low statistics relative to the clean calibration set are anomalous.
+        """
         if not math.isfinite(value):
             return 1.0
         if reference is None or reference == 0:

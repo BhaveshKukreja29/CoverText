@@ -73,7 +73,7 @@ def generate_completion(
             **encoded,
             max_new_tokens=max_new_tokens,
             do_sample=False,
-            pad_token_id=tokenizer.eos_token_id,
+            pad_token_id=tokenizer.pad_token_id or tokenizer.eos_token_id,
         )
     new_tokens = generated[0, prompt_len:]
     return tokenizer.decode(new_tokens, skip_special_tokens=True)

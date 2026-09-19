@@ -48,6 +48,11 @@ def test_mec_implements_interface():
     assert isinstance(encoder, Encoder)
 
 
+def test_fimec_is_not_silently_greedy():
+    with pytest.raises(NotImplementedError, match="greedy"):
+        MECEncoder(type("M", (), {"device": "cpu"})(), tokenizer=object(), mec_algorithm="fimec")
+
+
 def test_bits_per_step_rejects_split_rows():
     encoder = MECEncoder(type("M", (), {"device": "cpu"})(), tokenizer=object())
     # review2 counterexample: p_max <= 0.5 so n=1 looked legal, but token 2 splits

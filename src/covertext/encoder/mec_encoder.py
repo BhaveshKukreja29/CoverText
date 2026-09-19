@@ -66,8 +66,10 @@ class MECEncoder(Encoder):
         mec_algorithm: str = "greedy",
         seed: int = 0,
     ):
-        if mec_algorithm not in {"greedy", "fimec"}:
-            raise ValueError("mec_algorithm must be 'greedy' or 'fimec'")
+        if mec_algorithm != "greedy":
+            raise NotImplementedError(
+                f"mec_algorithm '{mec_algorithm}' not supported; use 'greedy'"
+            )
         self.model = model
         self.tokenizer = tokenizer
         self.top_k = top_k
