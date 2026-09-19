@@ -23,7 +23,10 @@ def _sigmoid(x: float) -> float:
 class PPLDetector(Detector):
     """Score text by how much token-level statistics deviate from the base model.
 
-    Higher score = more likely to be stego text.
+    ``compute_ppl`` is sequence perplexity. ``compute_kl_divergence`` is the mean
+    KL between the model's next-token distribution and the sequence's empirical
+    unigram, D_KL(P_LM || P_stego). Higher score = more likely to be stego.
+    Scoring requires ``calibrate()`` first.
     """
 
     def __init__(
@@ -48,15 +51,22 @@ class PPLDetector(Detector):
     def name(self) -> str:
         return "PPL"
 
-    def compute_token_log_probs(self, text: str) -> list[float]:
+    def _forward(self, text: str) -> tuple[torch.Tensor, torch.Tensor] | None:
         if not text:
-            return []
+            return None
         encoded = self.tokenizer(text, return_tensors="pt", add_special_tokens=False)
         input_ids = encoded["input_ids"].to(self.model.device)
         if input_ids.shape[1] < 2:
-            return []
+            return None
         with torch.no_grad():
             logits = self.model(input_ids=input_ids).logits[0].float()
+        return logits, input_ids
+
+    def compute_token_log_probs(self, text: str) -> list[float]:
+        packed = self._forward(text)
+        if packed is None:
+            return []
+        logits, input_ids = packed
         log_probs = torch.log_softmax(logits[:-1], dim=-1)
         token_ids = input_ids[0, 1:]
         chosen = log_probs[torch.arange(token_ids.size(0), device=log_probs.device), token_ids]
@@ -69,11 +79,20 @@ class PPLDetector(Detector):
         return math.exp(-statistics.mean(log_probs))
 
     def compute_kl_divergence(self, text: str) -> float:
-        """Mean KL(one-hot actual token || model distribution) = mean(-log p(token))."""
-        log_probs = self.compute_token_log_probs(text)
-        if not log_probs:
+        """Mean KL(model next-token dist || empirical unigram of the sequence)."""
+        packed = self._forward(text)
+        if packed is None:
             return 0.0
-        return float(-statistics.mean(log_probs))
+        logits, input_ids = packed
+        log_p = torch.log_softmax(logits[:-1], dim=-1)
+        vocab = log_p.size(-1)
+        counts = torch.bincount(input_ids[0], minlength=vocab).to(dtype=log_p.dtype)
+        empirical = counts.clamp_min(1e-12)
+        empirical = empirical / empirical.sum()
+        log_emp = empirical.log()
+        p = log_p.exp()
+        kl = (p * (log_p - log_emp)).sum(dim=-1)
+        return float(kl.mean().cpu())
 
     def calibrate(self, clean_texts: list[str]) -> None:
         ppls = [self.compute_ppl(t) for t in clean_texts if t]
@@ -87,6 +106,8 @@ class PPLDetector(Detector):
         self._kl_std = statistics.pstdev(kls) if len(kls) > 1 else None
 
     def score(self, text: str, **kwargs) -> float:
+        if self.reference_ppl is None or self.reference_kl is None:
+            raise ValueError("PPLDetector must be calibrated before scoring")
         ppl_score = self._deviation_score(
             self.compute_ppl(text), self.reference_ppl, self._ppl_std
         )

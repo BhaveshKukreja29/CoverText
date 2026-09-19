@@ -6,6 +6,7 @@ import torch
 from transformers.modeling_utils import PreTrainedModel
 from transformers.tokenization_utils_fast import PreTrainedTokenizerFast
 
+from covertext.common.generation import next_token_topk, reversible_subset
 from covertext.common.interfaces import Encoder
 from covertext.encoder.arithmetic import ArithmeticCoder
 
@@ -43,28 +44,49 @@ class ACEncoder(Encoder):
         generated: list[int] = []
         past = None
         for _ in range(max_tokens):
-            probs, token_ids, past = self._next_topk(input_ids, past_key_values=past)
+            probs, token_ids, past = next_token_topk(
+                self.model,
+                input_ids,
+                self.tokenizer,
+                temperature=self.temperature,
+                top_k=self.top_k,
+                past_key_values=past,
+            )
+            probs, token_ids = reversible_subset(
+                self.tokenizer, generated, probs, token_ids
+            )
             index = enc.step(probs)
             token_id = int(token_ids[index])
             generated.append(token_id)
             input_ids = torch.tensor([[token_id]], device=self.model.device)
             if enc.finished:
                 break
+        if not enc.finished:
+            raise RuntimeError("Payload truncated: max_tokens reached")
         return self.tokenizer.decode(generated, skip_special_tokens=False)
 
     def decode(self, stego_text: str, context: str, num_bits: int, **kwargs) -> str:
         if num_bits == 0:
             return ""
-        context_ids = self._tokenize(context)
-        full_ids = self._tokenize(context + stego_text)
-        stego_ids = full_ids[0, context_ids.shape[1] :].tolist()
+        stego_ids = self.tokenizer.encode(stego_text, add_special_tokens=False)
         if not stego_ids:
-            stego_ids = self.tokenizer.encode(stego_text, add_special_tokens=False)
-        stream = self.coder.start_decode(num_bits=num_bits)
-        input_ids = context_ids
+            raise ValueError("could not recover stego tokens")
+        stream = self.coder.start_decode(num_bits)
+        input_ids = self._tokenize(context)
         past = None
+        generated: list[int] = []
         for token_id in stego_ids:
-            probs, token_ids, past = self._next_topk(input_ids, past_key_values=past)
+            probs, token_ids, past = next_token_topk(
+                self.model,
+                input_ids,
+                self.tokenizer,
+                temperature=self.temperature,
+                top_k=self.top_k,
+                past_key_values=past,
+            )
+            probs, token_ids = reversible_subset(
+                self.tokenizer, generated, probs, token_ids
+            )
             try:
                 index = token_ids.index(int(token_id))
             except ValueError as exc:
@@ -72,28 +94,10 @@ class ACEncoder(Encoder):
                     "stego token is outside the encode-time top-k; cannot decode"
                 ) from exc
             stream.step(index, probs)
+            generated.append(int(token_id))
             input_ids = torch.tensor([[int(token_id)]], device=self.model.device)
         return stream.finish(num_bits)
 
     def _tokenize(self, text: str) -> torch.Tensor:
         encoded = self.tokenizer(text, return_tensors="pt", add_special_tokens=False)
         return encoded["input_ids"].to(self.model.device)
-
-    def _next_topk(
-        self, input_ids: torch.Tensor, past_key_values=None
-    ) -> tuple[list[float], list[int], object]:
-        with torch.no_grad():
-            outputs = self.model(
-                input_ids=input_ids,
-                past_key_values=past_key_values,
-                use_cache=True,
-            )
-        logits = outputs.logits[0, -1, :].float() / self.temperature
-        for attr in ("eos_token_id", "pad_token_id", "bos_token_id"):
-            tid = getattr(self.tokenizer, attr, None)
-            if tid is not None:
-                logits[int(tid)] = -float("inf")
-        k = min(self.top_k, int(torch.isfinite(logits).sum().item()))
-        values, indices = torch.topk(logits, k, sorted=True)
-        probs = torch.softmax(values, dim=-1)
-        return probs.cpu().tolist(), indices.cpu().tolist(), outputs.past_key_values

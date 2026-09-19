@@ -7,6 +7,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from transformers.modeling_utils import PreTrainedModel
 from transformers.tokenization_utils_fast import PreTrainedTokenizerFast
 
+from covertext.common.generation import mask_special_logits, topk_probs
+
 MODEL_ID: str = "Qwen/Qwen2.5-0.5B-Instruct"
 
 
@@ -37,23 +39,23 @@ def get_next_token_probs(
     temperature: float = 1.0,
 ) -> tuple[torch.Tensor, torch.Tensor]:
     """Return next-token probabilities and vocab ids for ``context``."""
+    if temperature <= 0:
+        raise ValueError("temperature must be positive")
     encoded = tokenizer(context, return_tensors="pt")
     encoded = {k: v.to(model.device) for k, v in encoded.items()}
     with torch.no_grad():
         outputs = model(**encoded)
-    logits = outputs.logits[0, -1, :].float()
-    if temperature <= 0:
-        raise ValueError("temperature must be positive")
-    logits = logits / temperature
-    if top_k is not None:
-        k = min(top_k, logits.size(-1))
-        top_values, top_indices = torch.topk(logits, k)
-        masked = torch.full_like(logits, -float("inf"))
-        masked[top_indices] = top_values
-        logits = masked
-    probs = torch.softmax(logits, dim=-1)
-    token_ids = torch.arange(probs.size(0), device=probs.device)
-    return probs, token_ids
+    logits = outputs.logits[0, -1, :].float() / temperature
+    logits = mask_special_logits(logits, tokenizer)
+    if top_k is None:
+        probs = torch.softmax(logits, dim=-1)
+        token_ids = torch.arange(probs.size(0), device=probs.device)
+        return probs, token_ids
+    probs, indices = topk_probs(logits, top_k)
+    full = torch.zeros(logits.size(0), dtype=probs.dtype, device=probs.device)
+    full[indices] = probs
+    token_ids = torch.arange(full.size(0), device=full.device)
+    return full, token_ids
 
 
 def generate_completion(

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import random
 from pathlib import Path
 
 from datasets import Dataset, DatasetDict, load_dataset
@@ -33,6 +34,11 @@ def _is_header(line: str) -> bool:
     return stripped.startswith("=") or line.startswith(" = ")
 
 
+def tokenizer_slug(tokenizer: PreTrainedTokenizerFast) -> str:
+    name = getattr(tokenizer, "name_or_path", None) or "default"
+    return "".join(c if c.isalnum() else "_" for c in str(name))
+
+
 def load_wikitext103(cache_dir: str | Path = CACHE_DIR) -> DatasetDict:
     """Download (or load cached) WikiText-103 and return the raw DatasetDict."""
     cache = _resolve_cache_dir(cache_dir)
@@ -61,7 +67,6 @@ def clean_paragraphs(
         buffer.append(line.strip())
     flush()
 
-    # Characters are a cheap lower/upper bound before tokenization.
     candidates = [
         p
         for p in paragraphs
@@ -84,19 +89,28 @@ def get_splits(
     max_tokens: int = DEFAULT_MAX_TOKENS,
     seed: int = DEFAULT_SEED,
 ) -> tuple[list[str], list[str], list[str]]:
-    """Return cleaned (train, validation, test) paragraph lists."""
-    del seed  # HuggingFace splits are already fixed; kept for the public API.
+    """Return cleaned (train, validation, test) paragraph lists.
+
+    HuggingFace split membership is fixed. ``seed`` shuffles paragraph order
+    inside each split so downstream sampling is reproducible and seed-dependent.
+    The on-disk cache key includes the tokenizer id, length window, and seed.
+    """
     cache = _resolve_cache_dir(cache_dir)
-    cleaned_path = cache / f"cleaned_{min_tokens}_{max_tokens}.json"
+    if tokenizer is None:
+        tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+    slug = tokenizer_slug(tokenizer)
+    cleaned_path = cache / f"cleaned_{slug}_{min_tokens}_{max_tokens}_s{seed}.json"
     if cleaned_path.exists():
         payload = json.loads(cleaned_path.read_text(encoding="utf-8"))
         return payload["train"], payload["validation"], payload["test"]
-    if tokenizer is None:
-        tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
     raw = load_wikitext103(cache_dir)
     train = clean_paragraphs(raw["train"], tokenizer, min_tokens, max_tokens)
     val = clean_paragraphs(raw["validation"], tokenizer, min_tokens, max_tokens)
     test = clean_paragraphs(raw["test"], tokenizer, min_tokens, max_tokens)
+    rng = random.Random(seed)
+    rng.shuffle(train)
+    rng.shuffle(val)
+    rng.shuffle(test)
     cleaned_path.write_text(
         json.dumps({"train": train, "validation": val, "test": test}),
         encoding="utf-8",
@@ -105,6 +119,8 @@ def get_splits(
 
 
 def get_paragraph_ids(paragraphs: list[str], seed: int = DEFAULT_SEED) -> list[int]:
-    """Deterministic paragraph ids: ``range(len(paragraphs))``."""
-    del seed
-    return list(range(len(paragraphs)))
+    """Deterministic shuffled paragraph ids for ``seed``."""
+    ids = list(range(len(paragraphs)))
+    rng = random.Random(seed)
+    rng.shuffle(ids)
+    return ids

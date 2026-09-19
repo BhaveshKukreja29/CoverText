@@ -1,3 +1,4 @@
+import pytest
 import numpy as np
 
 from covertext.encoder.arithmetic import ArithmeticCoder
@@ -61,3 +62,23 @@ def test_empty_payload():
     symbols = coder.encode("", _repeat(dist))
     assert symbols == []
     assert coder.decode(symbols, _repeat(dist), 0) == ""
+
+
+def test_roundtrip_long_payload():
+    dist = [0.31, 0.27, 0.22, 0.2]
+    rng = np.random.default_rng(4)
+    bits = "".join(str(int(b)) for b in rng.integers(0, 2, size=256))
+    assert _roundtrip(bits, dist) == bits
+
+
+def test_start_decode_requires_num_bits():
+    coder = ArithmeticCoder()
+    with pytest.raises(TypeError):
+        coder.start_decode()
+
+
+def test_skewed_distribution_many_symbols():
+    dist = [0.9] + [0.1 / 49] * 49
+    rng = np.random.default_rng(5)
+    bits = "".join(str(int(b)) for b in rng.integers(0, 2, size=128))
+    assert _roundtrip(bits, dist, precision=32) == bits

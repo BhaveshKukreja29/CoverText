@@ -45,3 +45,4 @@ def test_paragraph_token_length():
 def test_paragraph_ids_deterministic():
     paragraphs = ["a", "b", "c"]
     assert get_paragraph_ids(paragraphs, seed=42) == get_paragraph_ids(paragraphs, seed=42)
+    assert get_paragraph_ids(paragraphs, seed=42) != get_paragraph_ids(paragraphs, seed=1)

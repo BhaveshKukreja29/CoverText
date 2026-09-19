@@ -42,3 +42,13 @@ def test_bytes_to_bits_example():
 
 def test_bits_to_hex_example():
     assert bits_to_hex("01001000") == "48"
+
+
+def test_bytes_roundtrip_with_bit_length():
+    for bits in ("0", "1", "01101", "101010", "01001000"):
+        assert bytes_to_bits(bits_to_bytes(bits), bit_length=len(bits)) == bits
+
+
+def test_hex_roundtrip_with_bit_length():
+    for bits in ("1", "01", "011", "01001000"):
+        assert hex_to_bits(bits_to_hex(bits), bit_length=len(bits)) == bits

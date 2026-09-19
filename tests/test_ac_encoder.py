@@ -5,6 +5,18 @@ from covertext.common.payload import generate_payload
 from covertext.encoder.ac import ACEncoder
 
 
+class _FakeTokenizer:
+    eos_token_id = None
+    pad_token_id = None
+    bos_token_id = None
+
+    def decode(self, ids, skip_special_tokens=False):
+        return "".join(chr(i) for i in ids)
+
+    def encode(self, text, add_special_tokens=False):
+        return [ord(c) for c in text]
+
+
 @pytest.mark.slow
 def test_ac_roundtrip_8bit(model_fixture):
     _assert_roundtrip(model_fixture, 8, seed=0)
@@ -53,6 +65,25 @@ def test_ac_implements_interface():
     dummy_model = type("M", (), {"device": "cpu"})()
     encoder = ACEncoder(dummy_model, tokenizer=object())
     assert isinstance(encoder, Encoder)
+
+
+def test_ac_raises_when_max_tokens_exhausted():
+    encoder = ACEncoder(type("M", (), {"device": "cpu"})(), tokenizer=_FakeTokenizer())
+    encoder._tokenize = lambda text: __import__("torch").tensor([[1]])
+
+    def _next(*_args, **_kwargs):
+        return [0.5, 0.5], [10, 11], None
+
+    import covertext.encoder.ac as ac_mod
+
+    original = ac_mod.next_token_topk
+    ac_mod.next_token_topk = lambda *a, **k: _next()
+    ac_mod.reversible_subset = lambda tok, gen, p, ids: (p, ids)
+    try:
+        with pytest.raises(RuntimeError, match="max_tokens"):
+            encoder.encode("1" * 64, "ctx", max_tokens=1)
+    finally:
+        ac_mod.next_token_topk = original
 
 
 def _assert_roundtrip(model_fixture, num_bits: int, seed: int) -> None:

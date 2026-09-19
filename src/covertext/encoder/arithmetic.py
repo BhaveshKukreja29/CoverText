@@ -1,230 +1,232 @@
-"""Arithmetic coder over arbitrary discrete distributions.
+"""Nayuki-style 32-bit arithmetic coder with streaming renormalization.
 
-Interval arithmetic uses Python integers. Symbol masses are a fixed-sum
-frequency table mapped onto the current interval by integer division, matching
-the classic range-coder update:
-
-    new_low  = low + width * cdf[s]     // total
-    new_high = low + width * cdf[s + 1] // total
+``DecodeStream`` (encoder) emits bits as the interval collapses. ``EncodeStream``
+(decoder) reads payload bits into a code register and inverts the same updates.
+Frequencies are scaled to ``FREQ_TOTAL`` (2^16) so they fit under the 32-bit
+range. ``start_decode(num_bits)`` requires an explicit bit length; decoding
+without it cannot recover the original payload length.
 """
 
 from __future__ import annotations
 
+from typing import Sequence
+
 import numpy as np
 
-DEFAULT_PRECISION: int = 32
-FREQ_TOTAL: int = 1 << 20
+PRECISION = 32
+FREQ_TOTAL = 1 << 16
+_FULL = 1 << PRECISION
+_HALF = _FULL >> 1
+_QUARTER = _HALF >> 1
+_THREE_QUARTER = _QUARTER * 3
+_MASK = _FULL - 1
 
 
-def _as_probs(probs: list[float] | np.ndarray) -> np.ndarray:
-    p = np.asarray(probs, dtype=np.float64).reshape(-1)
-    if p.size == 0:
-        raise ValueError("probability distribution must be non-empty")
-    p = np.clip(p, 0.0, None)
+def _interval_bounds(probs: Sequence[float]) -> np.ndarray:
+    """Return integer CDF bounds of length ``len(probs)+1`` summing to ``FREQ_TOTAL``."""
+    p = np.asarray(probs, dtype=np.float64)
+    if p.ndim != 1 or p.size == 0:
+        raise ValueError("probs must be a non-empty 1-d sequence")
+    if np.any(p < 0) or np.any(~np.isfinite(p)):
+        raise ValueError("probs must be finite and non-negative")
     total = p.sum()
-    if total <= 0.0:
-        raise ValueError("probabilities must sum to a positive value")
-    return p / total
-
-
-def _frequencies(probs: np.ndarray) -> tuple[list[int], int]:
-    """Return cdf of length n+1 and the frequency total."""
-    n = probs.size
-    raw = probs * FREQ_TOTAL
-    counts = [int(np.floor(x)) for x in raw]
-    leftover = FREQ_TOTAL - sum(counts)
-    remainders = raw - np.floor(raw)
-    order = list(np.argsort(-remainders, kind="stable"))
-    for idx in order:
-        if leftover <= 0:
-            break
-        if probs[idx] > 0.0:
-            counts[int(idx)] += 1
-            leftover -= 1
-    if leftover > 0:
-        positive = [i for i, p in enumerate(probs) if p > 0.0]
-        counts[positive[-1]] += leftover
-    cdf = [0]
-    running = 0
-    for c in counts:
-        running += c
-        cdf.append(running)
-    return cdf, cdf[-1]
-
-
-def _interval_bounds(low: int, high: int, cdf: list[int], total: int) -> list[tuple[int, int]]:
-    """Map frequency CDF onto [low, high) with integer masses that sum to width."""
-    width = high - low
-    n = len(cdf) - 1
-    counts = [width * (cdf[s + 1] - cdf[s]) // total for s in range(n)]
-    leftover = width - sum(counts)
-    remainders = sorted(
-        range(n),
-        key=lambda s: (width * (cdf[s + 1] - cdf[s]) % total, -s),
-        reverse=True,
-    )
-    for s in remainders:
-        if leftover <= 0:
-            break
-        if cdf[s + 1] > cdf[s]:
-            counts[s] += 1
-            leftover -= 1
-    if leftover > 0:
-        for s in remainders:
-            counts[s] += leftover
-            leftover = 0
-            break
-    if width > 1 and max(counts) == width:
-        donor = max(range(n), key=lambda s: counts[s])
-        taker = max(range(n), key=lambda s: (s != donor, cdf[s + 1] - cdf[s], -s))
-        if taker != donor:
-            counts[donor] -= 1
-            counts[taker] += 1
-    bounds = []
-    cursor = low
-    for c in counts:
-        bounds.append((cursor, cursor + c))
-        cursor += c
+    if total <= 0:
+        raise ValueError("probs must sum to a positive value")
+    p = p / total
+    counts = np.maximum(np.floor(p * FREQ_TOTAL).astype(np.int64), 1)
+    extra = int(counts.sum() - FREQ_TOTAL)
+    if extra > 0:
+        order = np.argsort(-counts)
+        i = 0
+        while extra > 0:
+            idx = int(order[i % len(counts)])
+            if counts[idx] > 1:
+                counts[idx] -= 1
+                extra -= 1
+            i += 1
+            if i > len(counts) * (extra + 2):
+                break
+    elif extra < 0:
+        counts[int(np.argmax(p))] -= extra
+    bounds = np.zeros(len(counts) + 1, dtype=np.int64)
+    bounds[1:] = np.cumsum(counts)
+    bounds[-1] = FREQ_TOTAL
     return bounds
 
 
-def _prefix_unique(low: int, high: int, bit_len: int, scale_bits: int) -> bool:
-    if bit_len == 0 or high <= low:
-        return True
-    shift = scale_bits - bit_len
-    if shift <= 0:
-        return True
-    return (low >> shift) == ((high - 1) >> shift)
+class _RangeState:
+    def __init__(self) -> None:
+        self.low = 0
+        self.high = _MASK
+
+    def span(self) -> int:
+        return self.high - self.low + 1
+
+    def narrow(self, symbol: int, bounds: np.ndarray) -> None:
+        rng = self.span()
+        total = int(bounds[-1])
+        self.high = self.low + rng * int(bounds[symbol + 1]) // total - 1
+        self.low = self.low + rng * int(bounds[symbol]) // total
 
 
-def _bits_from_interval(low: int, bit_len: int, scale_bits: int) -> str:
-    if bit_len == 0:
-        return ""
-    shift = max(scale_bits - bit_len, 0)
-    value = low >> shift
-    return format(value, f"0{bit_len}b")[-bit_len:]
+class DecodeStream:
+    """Arithmetic encoder: consume symbols, emit bits."""
+
+    def __init__(self, coder: ArithmeticCoder, num_bits: int) -> None:
+        if num_bits < 0:
+            raise ValueError("num_bits must be non-negative")
+        self._coder = coder
+        self.num_bits = num_bits
+        self._state = _RangeState()
+        self._pending = 0
+        self.out: list[str] = []
+
+    def _emit_bit(self, bit: int) -> None:
+        self.out.append(str(bit))
+        follow = 1 - bit
+        self.out.extend(str(follow) for _ in range(self._pending))
+        self._pending = 0
+
+    def _renorm(self) -> None:
+        low, high = self._state.low, self._state.high
+        while True:
+            if high < _HALF:
+                self._emit_bit(0)
+            elif low >= _HALF:
+                self._emit_bit(1)
+                low -= _HALF
+                high -= _HALF
+            elif low >= _QUARTER and high < _THREE_QUARTER:
+                self._pending += 1
+                low -= _QUARTER
+                high -= _QUARTER
+            else:
+                break
+            low = (low << 1) & _MASK
+            high = ((high << 1) & _MASK) | 1
+        self._state.low, self._state.high = low, high
+
+    def step(self, symbol: int, probs: Sequence[float]) -> None:
+        bounds = _interval_bounds(probs)
+        if symbol < 0 or symbol >= len(probs):
+            raise ValueError("symbol out of range")
+        self._state.narrow(symbol, bounds)
+        self._renorm()
+
+    def clone(self) -> DecodeStream:
+        other = DecodeStream(self._coder, self.num_bits)
+        other._state.low = self._state.low
+        other._state.high = self._state.high
+        other._pending = self._pending
+        other.out = list(self.out)
+        return other
+
+    def finish(self, num_bits: int | None = None) -> str:
+        n = self.num_bits if num_bits is None else num_bits
+        if n < 0:
+            raise ValueError("num_bits must be non-negative")
+        if len(self.out) >= n:
+            return "".join(self.out[:n])
+        self._pending += 1
+        self._emit_bit((self._state.low >> (PRECISION - 2)) & 1)
+        bits = "".join(self.out)
+        if len(bits) >= n:
+            return bits[:n]
+        return bits.ljust(n, "0")
 
 
 class EncodeStream:
-    def __init__(self, coder: ArithmeticCoder, bits: str):
-        self.coder = coder
-        self.bits = bits
-        self.n_bits = len(bits)
-        self.scale_bits = max(self.n_bits + coder.precision, coder.precision + 8)
-        self.low = 0
-        self.high = 1 << self.scale_bits
-        padded = bits.ljust(self.scale_bits, "0")
-        self.value = int(padded, 2) if padded else 0
-        self.finished = bits == ""
+    """Arithmetic decoder: consume payload bits, emit symbols."""
 
-    def step(self, probs: list[float] | np.ndarray) -> int:
-        p = _as_probs(probs)
-        cdf, total = _frequencies(p)
-        bounds = _interval_bounds(self.low, self.high, cdf, total)
-        symbol = len(bounds) - 1
-        for idx, (start, end) in enumerate(bounds):
-            if start <= self.value < end:
-                symbol = idx
+    def __init__(self, coder: ArithmeticCoder, bits: str) -> None:
+        if any(c not in "01" for c in bits):
+            raise ValueError("bits must contain only '0' and '1'")
+        self._coder = coder
+        self._state = _RangeState()
+        self._bits = bits
+        self._index = 0
+        self._code = 0
+        self.finished = bits == ""
+        self._encoder = DecodeStream(coder, num_bits=len(bits))
+        for _ in range(PRECISION):
+            self._code = ((self._code << 1) & _MASK) | self._next_bit()
+
+    def _next_bit(self) -> int:
+        if self._index < len(self._bits):
+            bit = int(self._bits[self._index])
+            self._index += 1
+            return bit
+        return 0
+
+    def _renorm(self) -> None:
+        low, high, code = self._state.low, self._state.high, self._code
+        while True:
+            if high < _HALF:
+                pass
+            elif low >= _HALF:
+                low -= _HALF
+                high -= _HALF
+                code -= _HALF
+            elif low >= _QUARTER and high < _THREE_QUARTER:
+                low -= _QUARTER
+                high -= _QUARTER
+                code -= _QUARTER
+            else:
                 break
-        new_low, new_high = bounds[symbol]
-        if new_high <= new_low:
-            new_high = new_low + 1
-        self.low, self.high = new_low, new_high
-        if self.high - self.low <= 1 or (
-            self.low <= self.value < self.high
-            and _prefix_unique(self.low, self.high, self.n_bits, self.scale_bits)
-        ):
+            low = (low << 1) & _MASK
+            high = ((high << 1) & _MASK) | 1
+            code = ((code << 1) & _MASK) | self._next_bit()
+        self._state.low, self._state.high, self._code = low, high, code
+
+    def step(self, probs: Sequence[float]) -> int:
+        bounds = _interval_bounds(probs)
+        total = int(bounds[-1])
+        rng = self._state.span()
+        offset = self._code - self._state.low
+        value = ((offset + 1) * total - 1) // rng
+        symbol = int(np.searchsorted(bounds, value, side="right") - 1)
+        symbol = max(0, min(symbol, len(probs) - 1))
+        self._state.narrow(symbol, bounds)
+        self._renorm()
+        self._encoder.step(symbol, probs)
+        recovered = self._encoder.clone().finish(len(self._bits))
+        if recovered == self._bits:
             self.finished = True
         return symbol
 
 
-class DecodeStream:
-    def __init__(self, coder: ArithmeticCoder, num_bits: int | None = None):
-        self.coder = coder
-        self.num_bits = num_bits
-        self.scale_bits: int | None = None
-        self.low = 0
-        self.high: int | None = None
-        self.out: list[str] = []
-
-    def _ensure_scale(self, num_bits: int) -> None:
-        if self.high is not None:
-            return
-        self.num_bits = num_bits
-        self.scale_bits = max(num_bits + self.coder.precision, self.coder.precision + 8)
-        self.high = 1 << self.scale_bits
-
-    def step(self, symbol: int, probs: list[float] | np.ndarray, final: bool = False) -> None:
-        del final
-        n_bits = 0 if self.num_bits is None else self.num_bits
-        self._ensure_scale(n_bits)
-        p = _as_probs(probs)
-        cdf, total = _frequencies(p)
-        if symbol < 0 or symbol >= len(cdf) - 1:
-            raise ValueError(f"symbol {symbol} is outside the distribution")
-        bounds = _interval_bounds(self.low, self.high, cdf, total)
-        new_low, new_high = bounds[symbol]
-        if new_high <= new_low:
-            new_high = new_low + 1
-        self.low, self.high = new_low, new_high
-
-    def finish(self, num_bits: int) -> str:
-        if num_bits == 0:
-            return ""
-        self._ensure_scale(num_bits)
-        assert self.scale_bits is not None
-        return _bits_from_interval(self.low, num_bits, self.scale_bits)
-
-
 class ArithmeticCoder:
-    """Arithmetic coder over caller-supplied discrete distributions."""
-
-    def __init__(self, precision: int = DEFAULT_PRECISION):
-        if precision < 2:
-            raise ValueError("precision must be at least 2")
+    def __init__(self, precision: int = PRECISION):
+        if precision != PRECISION:
+            raise ValueError(f"only {PRECISION}-bit streaming precision is supported")
         self.precision = precision
-        self.whole = 1 << precision
-        self.half = self.whole >> 1
-        self.quarter = self.whole >> 2
 
-    def start_encode(self, bits: str) -> EncodeStream:
-        if any(c not in "01" for c in bits):
-            raise ValueError("bits must contain only '0' and '1'")
-        return EncodeStream(self, bits)
-
-    def start_decode(self, num_bits: int | None = None) -> DecodeStream:
-        return DecodeStream(self, num_bits=num_bits)
-
-    def encode(self, bits: str, probs_sequence: list[list[float] | np.ndarray]) -> list[int]:
-        stream = self.start_encode(bits)
+    def encode(self, bits: str, distributions: Sequence[Sequence[float]]) -> list[int]:
         if bits == "":
             return []
-        if not probs_sequence:
-            raise ValueError("probs_sequence must be non-empty for a non-empty payload")
+        stream = self.start_encode(bits)
         symbols: list[int] = []
-        for probs in probs_sequence:
-            symbols.append(stream.step(probs))
+        for dist in distributions:
+            symbols.append(stream.step(dist))
             if stream.finished:
-                return symbols
-        raise ValueError("probs_sequence exhausted before the payload could be fully encoded")
+                break
+        return symbols
 
     def decode(
         self,
-        symbols: list[int],
-        probs_sequence: list[list[float] | np.ndarray],
+        symbols: Sequence[int],
+        distributions: Sequence[Sequence[float]],
         num_bits: int,
     ) -> str:
-        if num_bits < 0:
-            raise ValueError("num_bits must be non-negative")
         if num_bits == 0:
             return ""
-        if len(symbols) > len(probs_sequence):
-            raise ValueError("not enough distributions to decode the symbol sequence")
-        stream = self.start_decode(num_bits=num_bits)
-        for symbol, probs in zip(symbols, probs_sequence):
-            stream.step(symbol, probs)
+        stream = self.start_decode(num_bits)
+        for symbol, dist in zip(symbols, distributions):
+            stream.step(symbol, dist)
         return stream.finish(num_bits)
 
-    def encode_symbol(self, bit: int, probs: list[float] | np.ndarray) -> int:
-        symbols = self.encode(str(int(bool(bit))), [probs] * (self.precision + 8))
-        return symbols[0]
+    def start_encode(self, bits: str) -> EncodeStream:
+        return EncodeStream(self, bits)
+
+    def start_decode(self, num_bits: int) -> DecodeStream:
+        return DecodeStream(self, num_bits)
