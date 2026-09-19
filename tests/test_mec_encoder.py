@@ -4,7 +4,7 @@ from covertext.common.interfaces import Encoder
 from covertext.common.payload import generate_payload
 import numpy as np
 
-from covertext.encoder.mec_encoder import MECEncoder
+from covertext.encoder.mec_encoder import MECEncoder, bin_partition
 
 
 @pytest.mark.slow
@@ -53,36 +53,56 @@ def test_fimec_is_not_silently_greedy():
         MECEncoder(type("M", (), {"device": "cpu"})(), tokenizer=object(), mec_algorithm="fimec")
 
 
-def test_bits_per_step_rejects_split_rows():
+def test_bin_partition_never_splits_tokens():
     encoder = MECEncoder(type("M", (), {"device": "cpu"})(), tokenizer=object())
-    # review2 counterexample: p_max <= 0.5 so n=1 looked legal, but token 2 splits
-    probs = [0.4, 0.3, 0.3]
-    assert encoder._bits_per_step(probs, 8) == 0
-    coupling = encoder._coupling(probs, 1)
-    assert int(np.sum(coupling > 1e-12, axis=1).max()) > 1
+    rng = np.random.default_rng(42)
+    for _ in range(100):
+        logits = rng.normal(0, 2, size=50)
+        probs = np.exp(logits)
+        probs = (probs / probs.sum()).tolist()
+        n_bits = encoder._bin_bits(probs)
+        assert n_bits >= 1
+        assignment, masses = bin_partition(probs, n_bits)
+        assert len(assignment) == 50
+        assert len(masses) == 1 << n_bits
+        assert min(masses) > 0
+        assert sorted(set(assignment)) == list(range(1 << n_bits))
 
 
-def test_coupling_sample_inverts():
+def test_realistic_softmax_embeds_bits():
+    encoder = MECEncoder(type("M", (), {"device": "cpu"})(), tokenizer=object())
+    rng = np.random.default_rng(42)
+    zeros = 0
+    for _ in range(100):
+        logits = rng.normal(0, 2, size=50)
+        probs = np.exp(logits)
+        probs = (probs / probs.sum()).tolist()
+        if encoder._bin_bits(probs) == 0:
+            zeros += 1
+    assert zeros == 0
+
+
+def test_bin_membership_inverts():
     encoder = MECEncoder(type("M", (), {"device": "cpu"})(), tokenizer=object(), seed=7)
-    probs = [0.4, 0.3, 0.2, 0.1]
-    n_bits = encoder._bits_per_step(probs, 8)
-    assert n_bits >= 1
-    for message in range(1 << n_bits):
-        for step in range(20):
-            token = encoder._sample_token_index(probs, message, n_bits, step)
-            recovered = encoder._recover_message(probs, token, n_bits)
-            assert recovered == message
+    probs = [0.21841, 0.10392, 0.08412, 0.07, 0.06, 0.05, 0.04, 0.37355]
+    n_bits = encoder._bin_bits(probs)
+    assignment, _masses = bin_partition(probs, n_bits)
+    for bin_index in range(1 << n_bits):
+        for step in range(10):
+            token = encoder._sample_in_bin(probs, assignment, bin_index, step)
+            assert assignment[token] == bin_index
 
 
 def test_mec_token_marginal_tracks_model():
     encoder = MECEncoder(type("M", (), {"device": "cpu"})(), tokenizer=object(), seed=3)
     probs = [0.25, 0.2, 0.15, 0.12, 0.1, 0.08, 0.06, 0.04]
-    n_bits = encoder._bits_per_step(probs, 8)
-    n_messages = 1 << n_bits
+    n_bits = encoder._bin_bits(probs)
+    assignment, masses = bin_partition(probs, n_bits)
     counts = np.zeros(len(probs))
-    for step in range(3000):
-        message = step % n_messages
-        counts[encoder._sample_token_index(probs, message, n_bits, step)] += 1
+    rng = np.random.default_rng(0)
+    for step in range(4000):
+        bin_index = int(rng.choice(len(masses), p=masses))
+        counts[encoder._sample_in_bin(probs, assignment, bin_index, step)] += 1
     empirical = counts / counts.sum()
     uniform = np.full(len(probs), 1.0 / len(probs))
     assert np.sum(np.abs(empirical - np.array(probs))) < np.sum(np.abs(empirical - uniform))

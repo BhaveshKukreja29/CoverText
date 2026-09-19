@@ -6,7 +6,7 @@ import torch
 from transformers.modeling_utils import PreTrainedModel
 from transformers.tokenization_utils_fast import PreTrainedTokenizerFast
 
-from covertext.common.generation import next_token_topk, reversible_subset
+from covertext.common.generation import isolate_stego_context, next_token_topk, reversible_subset
 from covertext.common.interfaces import Encoder
 from covertext.encoder.arithmetic import ArithmeticCoder
 
@@ -102,5 +102,7 @@ class ACEncoder(Encoder):
         return stream.finish(num_bits)
 
     def _tokenize(self, text: str) -> torch.Tensor:
-        encoded = self.tokenizer(text, return_tensors="pt", add_special_tokens=False)
+        encoded = self.tokenizer(
+            isolate_stego_context(text), return_tensors="pt", add_special_tokens=False
+        )
         return encoded["input_ids"].to(self.model.device)

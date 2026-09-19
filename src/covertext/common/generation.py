@@ -70,5 +70,8 @@ def reversible_subset(
     return [p / total for p in kept_probs], kept_ids
 
 
-def stego_token_ids(tokenizer: PreTrainedTokenizerFast, stego_text: str) -> list[int]:
-    return tokenizer.encode(stego_text, add_special_tokens=False)
+def isolate_stego_context(context: str) -> str:
+    """Put a space between context and stego so BPE cannot merge across the boundary."""
+    if context and not context[-1].isspace():
+        return context + " "
+    return context

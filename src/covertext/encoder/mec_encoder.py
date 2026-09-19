@@ -10,8 +10,13 @@ import torch
 from transformers.modeling_utils import PreTrainedModel
 from transformers.tokenization_utils_fast import PreTrainedTokenizerFast
 
-from covertext.common.generation import next_token_topk, reversible_subset
+from covertext.common.generation import (
+    isolate_stego_context,
+    next_token_topk,
+    reversible_subset,
+)
 from covertext.common.interfaces import Encoder
+from covertext.encoder.arithmetic import ArithmeticCoder
 
 
 def greedy_mec(p: np.ndarray, q: np.ndarray) -> np.ndarray:
@@ -40,21 +45,35 @@ def _inverse_cdf(probs: np.ndarray, u: float) -> int:
     return min(idx, len(probs) - 1)
 
 
-def _column(coupling: np.ndarray, message: int) -> np.ndarray | None:
-    col = coupling[:, message]
-    total = float(col.sum())
-    if total <= 1e-15:
-        return None
-    return col / total
+def bin_partition(probs: list[float], n_bits: int) -> tuple[list[int], list[float]]:
+    """Assign each token to exactly one of ``2**n_bits`` bins, balancing mass.
+
+    Tokens are never split. Bin masses generally will not equal ``2^{-n}`` on
+    continuous softmaxes; arithmetic coding consumes those unequal masses.
+    """
+    n_bins = 1 << n_bits
+    p = np.asarray(probs, dtype=np.float64)
+    if p.size < n_bins:
+        raise ValueError("need at least one token per bin")
+    p = p / p.sum()
+    assignment = np.empty(p.size, dtype=np.int64)
+    masses = np.zeros(n_bins, dtype=np.float64)
+    for index in np.argsort(-p, kind="stable"):
+        bin_id = int(np.argmin(masses))
+        assignment[index] = bin_id
+        masses[bin_id] += p[index]
+    return assignment.tolist(), masses.tolist()
 
 
 class MECEncoder(Encoder):
-    """Meteor-style encoder using minimum entropy coupling.
+    """Meteor-style encoder using disjoint bin coupling plus arithmetic coding.
 
-    Tokens are sampled from the coupling conditional ``P(X | M = m)`` with a
-    shared PRNG so decode can invert the same draw. The induced token
-    marginal matches the language-model top-k distribution. Reference:
-    Schroeder de Witt et al., ICLR 2023.
+    Real softmax masses never partition into exact ``2^{-n}`` subsets, so a
+    split-free coupling against a uniform message prior embeds nothing. Each
+    token is assigned to one bin; the bin is chosen with ``ArithmeticCoder``
+    under the bin masses, then a token is sampled inside that bin. Decode reads
+    the bin from the observed token. The token marginal remains ``p(x)``.
+    Reference: Schroeder de Witt et al., ICLR 2023; Phase-one construction.
     """
 
     def __init__(
@@ -65,6 +84,7 @@ class MECEncoder(Encoder):
         temperature: float = 1.0,
         mec_algorithm: str = "greedy",
         seed: int = 0,
+        precision: int = 32,
     ):
         if mec_algorithm != "greedy":
             raise NotImplementedError(
@@ -76,6 +96,7 @@ class MECEncoder(Encoder):
         self.temperature = temperature
         self.mec_algorithm = mec_algorithm
         self.seed = seed
+        self.coder = ArithmeticCoder(precision=precision)
 
     @property
     def name(self) -> str:
@@ -85,14 +106,12 @@ class MECEncoder(Encoder):
         max_tokens = kwargs.get("max_tokens", max_tokens)
         if payload_bits == "":
             return ""
+        enc = self.coder.start_encode(payload_bits)
         input_ids = self._tokenize(context)
         generated: list[int] = []
-        remaining = payload_bits
         past = None
         step = 0
         for _ in range(max_tokens):
-            if not remaining:
-                break
             probs, token_ids, past = next_token_topk(
                 self.model,
                 input_ids,
@@ -104,15 +123,20 @@ class MECEncoder(Encoder):
             probs, token_ids = reversible_subset(
                 self.tokenizer, generated, probs, token_ids
             )
-            bits_this_step = self._bits_per_step(probs, len(remaining))
-            message = int(remaining[:bits_this_step], 2) if bits_this_step else 0
-            token_index = self._sample_token_index(probs, message, bits_this_step, step)
-            remaining = remaining[bits_this_step:]
-            token_id = int(token_ids[token_index])
+            if len(token_ids) < 2:
+                token_id = int(token_ids[0])
+            else:
+                n_bits = self._bin_bits(probs)
+                assignment, masses = bin_partition(probs, n_bits)
+                bin_index = enc.step(masses)
+                token_index = self._sample_in_bin(probs, assignment, bin_index, step)
+                token_id = int(token_ids[token_index])
             generated.append(token_id)
             input_ids = torch.tensor([[token_id]], device=self.model.device)
             step += 1
-        if remaining:
+            if enc.finished:
+                break
+        if not enc.finished:
             raise RuntimeError("Payload truncated: max_tokens reached")
         return self.tokenizer.decode(generated, skip_special_tokens=False)
 
@@ -122,18 +146,11 @@ class MECEncoder(Encoder):
         stego_ids = self.tokenizer.encode(stego_text, add_special_tokens=False)
         if not stego_ids:
             raise ValueError("could not recover stego tokens")
-        return self._decode_ids(stego_ids, context, num_bits)
-
-    def _decode_ids(self, stego_ids: list[int], context: str, num_bits: int) -> str:
+        stream = self.coder.start_decode(num_bits)
         input_ids = self._tokenize(context)
-        remaining = num_bits
-        recovered: list[str] = []
         recovered_ids: list[int] = []
         past = None
-        step = 0
         for token_id in stego_ids:
-            if remaining <= 0:
-                break
             probs, token_ids, past = next_token_topk(
                 self.model,
                 input_ids,
@@ -145,69 +162,37 @@ class MECEncoder(Encoder):
             probs, token_ids = reversible_subset(
                 self.tokenizer, recovered_ids, probs, token_ids
             )
-            bits_this_step = self._bits_per_step(probs, remaining)
             try:
                 position = token_ids.index(int(token_id))
             except ValueError as exc:
                 raise ValueError("stego token is outside the encode-time top-k") from exc
-            if bits_this_step:
-                message = self._recover_message(probs, position, bits_this_step)
-                recovered.append(format(message, f"0{bits_this_step}b"))
-                remaining -= bits_this_step
+            if len(token_ids) >= 2:
+                n_bits = self._bin_bits(probs)
+                assignment, masses = bin_partition(probs, n_bits)
+                stream.step(int(assignment[position]), masses)
             recovered_ids.append(int(token_id))
             input_ids = torch.tensor([[int(token_id)]], device=self.model.device)
-            step += 1
-        bits = "".join(recovered)
-        if remaining > 0 or len(bits) < num_bits:
-            raise RuntimeError("Payload truncated: max_tokens reached")
-        return bits[:num_bits]
+        return stream.finish(num_bits)
 
-    def _bits_per_step(self, probs: list[float], remaining: int) -> int:
-        """Largest n whose greedy coupling has no token split across messages.
-
-        p_max <= 2^{-n} is necessary but not sufficient: leftover bin capacity
-        can still split a smaller token across two columns. Decode uses row
-        argmax, so any split row is a bit error. Search downward until every
-        coupling row has at most one nonzero, or give up and embed nothing.
-        """
-        if remaining <= 0 or len(probs) < 2:
-            return 0
-        cap_k = int(math.floor(math.log2(len(probs))))
-        for n in range(min(cap_k, remaining), 0, -1):
-            coupling = self._coupling(probs, n)
-            nonzeros_per_row = np.sum(coupling > 1e-12, axis=1)
-            if np.all(nonzeros_per_row <= 1):
-                return n
-        return 0
-
-    def _coupling(self, probs: list[float], n_bits: int) -> np.ndarray:
-        n_messages = 1 << n_bits
-        p = np.asarray(probs, dtype=np.float64)
-        p = p / p.sum()
-        q = np.full(n_messages, 1.0 / n_messages, dtype=np.float64)
-        return greedy_mec(p, q)
+    def _bin_bits(self, probs: list[float]) -> int:
+        return max(1, int(math.floor(math.log2(len(probs)))))
 
     def _rng(self, step: int) -> random.Random:
         return random.Random(f"{self.seed}:{step}")
 
-    def _sample_token_index(
-        self, probs: list[float], message: int, n_bits: int, step: int
+    def _sample_in_bin(
+        self, probs: list[float], assignment: list[int], bin_index: int, step: int
     ) -> int:
-        u = self._rng(step).random()
-        if n_bits == 0:
-            p = np.asarray(probs, dtype=np.float64)
-            return _inverse_cdf(p / p.sum(), u)
-        col = _column(self._coupling(probs, n_bits), message)
-        if col is None:
-            raise ValueError("message has no mass under the coupling")
-        return _inverse_cdf(col, u)
-
-    def _recover_message(self, probs: list[float], token: int, n_bits: int) -> int:
-        row = self._coupling(probs, n_bits)[token]
-        if float(row.sum()) <= 0:
-            raise ValueError("token has no mass under the coupling")
-        return int(np.argmax(row))
+        p = np.asarray(probs, dtype=np.float64)
+        members = np.flatnonzero(np.asarray(assignment) == bin_index)
+        if members.size == 0:
+            raise ValueError("arithmetic coder selected an empty bin")
+        cond = p[members]
+        cond = cond / cond.sum()
+        local = _inverse_cdf(cond, self._rng(step).random())
+        return int(members[local])
 
     def _tokenize(self, text: str) -> torch.Tensor:
+        text = isolate_stego_context(text)
         encoded = self.tokenizer(text, return_tensors="pt", add_special_tokens=False)
         return encoded["input_ids"].to(self.model.device)

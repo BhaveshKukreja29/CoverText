@@ -20,6 +20,14 @@ def test_score_requires_calibration():
         detector.score("some text")
 
 
+def test_deviation_score_zero_at_or_below_reference():
+    detector = PPLDetector(type("M", (), {"device": "cpu"})(), tokenizer=object())
+    assert detector._deviation_score(20.0, 20.0, 1.0) == 0.0
+    assert detector._deviation_score(10.0, 20.0, 1.0) == 0.0
+    high = detector._deviation_score(30.0, 20.0, 1.0)
+    assert 0.0 < high <= 1.0
+
+
 @pytest.mark.slow
 def test_ppl_detector_returns_score(model_fixture):
     model, tokenizer = model_fixture

@@ -1,6 +1,6 @@
 import pytest
 
-from covertext.common.generation import reversible_subset
+from covertext.common.generation import isolate_stego_context, reversible_subset
 
 
 class _SelectiveTokenizer:
@@ -33,3 +33,9 @@ def test_reversible_subset_single_token_is_not_a_raw_fallback():
 def test_reversible_subset_raises_when_none_roundtrip():
     with pytest.raises(ValueError, match="no reversible tokens"):
         reversible_subset(_SelectiveTokenizer(), [], [1.0], [7])
+
+
+def test_isolate_stego_context_adds_boundary_space():
+    assert isolate_stego_context("hello") == "hello "
+    assert isolate_stego_context("hello ") == "hello "
+    assert isolate_stego_context("") == ""

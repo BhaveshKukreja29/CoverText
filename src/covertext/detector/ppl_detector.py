@@ -41,11 +41,9 @@ class PPLDetector(Detector):
     has expectation 0; stego steering yields a positive deficit. Scoring
     requires ``calibrate()`` first.
 
-    ``score`` is a two-sided anomaly detector: deviations *below* the clean
-    reference (unusually fluent text) and *above* it (typical stego inflation of
-    PPL / entropy deficit) are treated the same. Stego usually increases both
-    statistics; the absolute deviation is kept so calibration remains
-    well-defined when a sample is atypically fluent.
+    ``score`` is one-sided: values at or below the clean reference map to 0.0
+    (natural), and inflated PPL / entropy deficit map toward 1.0 (stego).
+    A zero deviation is 0.0, not sigmoid(0)=0.5.
     """
 
     def __init__(
@@ -147,16 +145,16 @@ class PPLDetector(Detector):
     def _deviation_score(
         self, value: float, reference: float | None, std: float | None
     ) -> float:
-        """Map |value - reference| / scale through a sigmoid.
+        """One-sided stego score in [0, 1]: 0 at or below the clean reference.
 
-        The absolute value is intentional: both unusually high and unusually
-        low statistics relative to the clean calibration set are anomalous.
+        ``2 * (sigmoid(max(value - reference, 0) / scale) - 0.5)`` so a match
+        to calibration is 0.0 rather than sigmoid(0) = 0.5.
         """
         if not math.isfinite(value):
             return 1.0
-        if reference is None or reference == 0:
-            return _sigmoid(value)
+        if reference is None:
+            return 0.0
         scale = std if std not in (None, 0.0) else abs(reference)
         if scale == 0:
             scale = 1.0
-        return _sigmoid(abs(value - reference) / scale)
+        return 2.0 * (_sigmoid(max(value - reference, 0.0) / scale) - 0.5)
