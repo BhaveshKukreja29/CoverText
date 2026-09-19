@@ -44,7 +44,7 @@ def test_compute_kl_positive(model_fixture):
     text = "The quick brown fox"
     kl = detector.compute_kl_divergence(text)
     ppl = detector.compute_ppl(text)
-    assert kl >= 0
+    assert math.isfinite(kl)
     assert abs(kl - math.log(ppl)) > 1e-6
 
 

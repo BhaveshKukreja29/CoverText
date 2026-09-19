@@ -62,8 +62,10 @@ def reversible_subset(
         if back == trial:
             kept_probs.append(prob)
             kept_ids.append(int(token_id))
-    if len(kept_ids) < 2:
-        return probs, token_ids
+    if not kept_ids:
+        raise ValueError("no reversible tokens in top-k")
+    if len(kept_ids) == 1:
+        return [1.0], kept_ids
     total = sum(kept_probs)
     return [p / total for p in kept_probs], kept_ids
 

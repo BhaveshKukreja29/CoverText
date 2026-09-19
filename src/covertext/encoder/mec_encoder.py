@@ -161,20 +161,22 @@ class MECEncoder(Encoder):
         return bits[:num_bits]
 
     def _bits_per_step(self, probs: list[float], remaining: int) -> int:
-        """Largest n such that each token couples to at most one message.
+        """Largest n whose greedy coupling has no token split across messages.
 
-        Greedy MEC assigns a token to a second message only when p(x) > 2^{-n}.
-        Capping n at floor(log2(1/max p)) keeps P(M|X) a delta, so decode is
-        unique, while the token marginal remains the LM distribution.
+        p_max <= 2^{-n} is necessary but not sufficient: leftover bin capacity
+        can still split a smaller token across two columns. Decode uses row
+        argmax, so any split row is a bit error. Search downward until every
+        coupling row has at most one nonzero, or give up and embed nothing.
         """
         if remaining <= 0 or len(probs) < 2:
             return 0
-        max_p = max(probs)
-        if max_p <= 0 or max_p >= 1:
-            return 0
-        cap_mass = int(math.floor(math.log2(1.0 / max_p)))
         cap_k = int(math.floor(math.log2(len(probs))))
-        return min(cap_k, cap_mass, remaining)
+        for n in range(min(cap_k, remaining), 0, -1):
+            coupling = self._coupling(probs, n)
+            nonzeros_per_row = np.sum(coupling > 1e-12, axis=1)
+            if np.all(nonzeros_per_row <= 1):
+                return n
+        return 0
 
     def _coupling(self, probs: list[float], n_bits: int) -> np.ndarray:
         n_messages = 1 << n_bits

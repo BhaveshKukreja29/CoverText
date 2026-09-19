@@ -55,8 +55,10 @@ class ACEncoder(Encoder):
             probs, token_ids = reversible_subset(
                 self.tokenizer, generated, probs, token_ids
             )
-            index = enc.step(probs)
-            token_id = int(token_ids[index])
+            if len(token_ids) < 2:
+                token_id = int(token_ids[0])
+            else:
+                token_id = int(token_ids[enc.step(probs)])
             generated.append(token_id)
             input_ids = torch.tensor([[token_id]], device=self.model.device)
             if enc.finished:
@@ -93,7 +95,8 @@ class ACEncoder(Encoder):
                 raise ValueError(
                     "stego token is outside the encode-time top-k; cannot decode"
                 ) from exc
-            stream.step(index, probs)
+            if len(token_ids) >= 2:
+                stream.step(index, probs)
             generated.append(int(token_id))
             input_ids = torch.tensor([[int(token_id)]], device=self.model.device)
         return stream.finish(num_bits)

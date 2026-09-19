@@ -48,6 +48,15 @@ def test_mec_implements_interface():
     assert isinstance(encoder, Encoder)
 
 
+def test_bits_per_step_rejects_split_rows():
+    encoder = MECEncoder(type("M", (), {"device": "cpu"})(), tokenizer=object())
+    # review2 counterexample: p_max <= 0.5 so n=1 looked legal, but token 2 splits
+    probs = [0.4, 0.3, 0.3]
+    assert encoder._bits_per_step(probs, 8) == 0
+    coupling = encoder._coupling(probs, 1)
+    assert int(np.sum(coupling > 1e-12, axis=1).max()) > 1
+
+
 def test_coupling_sample_inverts():
     encoder = MECEncoder(type("M", (), {"device": "cpu"})(), tokenizer=object(), seed=7)
     probs = [0.4, 0.3, 0.2, 0.1]
