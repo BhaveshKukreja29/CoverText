@@ -1,0 +1,44 @@
+======================================================================
+CONTEXT: 'The capital of France is'
+======================================================================
+[16-bit payload]  round trip ok: True
+  ORIGINAL (natural): The capital of France is' Paris. The population in 2013'
+  STEGO (hidden)    : The capital of France is'1000, 000.\n\n'
+
+[32-bit payload]  round trip ok: True
+  ORIGINAL (natural): The capital of France is' Paris. The city is located on the right bank of the Seine river, and it’s surrounded by many hills, which make up a unique landscape.\n\n'
+  STEGO (hidden)    : The capital of France is' .\nA. Brussels\nB. Paris\nC. Marseille\nD. Strasbourg\nTo determine the capital of France, we need to consider the official'
+
+[64-bit payload]  round trip ok: True
+  ORIGINAL (natural): The capital of France is' Paris. The population of Paris is about 2 million people.\n\nTranslate to French\n\n1) Le首都 de la'
+  STEGO (hidden)    : The capital of France is'3.3 x 10^6 hectares, and the tax revenue of the capital is 798'
+
+======================================================================
+CONTEXT: 'The history of science is'
+======================================================================
+[16-bit payload]  round trip ok: True
+  ORIGINAL (natural): The history of science is' a long and fascinating journey, filled with groundbreaking discoveries and revolutionary changes. From the ancient Greeks to modern scientists'
+  STEGO (hidden)    : The history of science is'100 years old, and the year we celebrate its centenary is not necessarily the 19'
+
+[32-bit payload]  round trip ok: True
+  ORIGINAL (natural): The history of science is' a story about the quest for knowledge, and'
+  STEGO (hidden)    : The history of science is' a fascinating, multi-layered narrative with roots'
+
+[64-bit payload]  round trip ok: True
+  ORIGINAL (natural): The history of science is' a story about the exploration of the unknown. The first steps in this adventure were made by scientists, who set out to discover the world around them.'
+  STEGO (hidden)    : The history of science is"170 years long. Which of the following statements below about the history of science is incorrect? A. Newton's four laws of motion came one"
+
+======================================================================
+CONTEXT: 'Yesterday I went to the market and'
+======================================================================
+[16-bit payload]  round trip ok: True
+  ORIGINAL (natural): Yesterday I went to the market and' bought some fruit. The total cost'
+  STEGO (hidden)    : Yesterday I went to the market and'1000 pieces of glass'
+
+[32-bit payload]  round trip ok: True
+  ORIGINAL (natural): Yesterday I went to the market and' bought some fruits. The price of apples was 3 times that'
+  STEGO (hidden)    : Yesterday I went to the market and'30% of the items it sold were handmade clothing. Additionally'
+
+[64-bit payload]  round trip ok: True
+  ORIGINAL (natural): Yesterday I went to the market and' bought a dozen eggs. If I had $100 in my piggy bank, how many dozens'
+  STEGO (hidden)    : Yesterday I went to the market and'19 of my bags were on wheels, but this time I added four more bags to my cart,'
