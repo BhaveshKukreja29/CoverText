@@ -1,0 +1,150 @@
+
+## covertext.common
+
+## covertext.common.data
+def clean_paragraphs(raw_dataset: 'Dataset', tokenizer: 'PreTrainedTokenizerFast', min_tokens: 'int' = 64, max_tokens: 'int' = 256) -> 'list[str]'
+    # Drop headers/empties, join lines into paragraphs, keep token-length window.
+def get_paragraph_ids(paragraphs: 'list[str]', seed: 'int' = 42) -> 'list[int]'
+    # Deterministic shuffled paragraph ids for ``seed``.
+def get_splits(cache_dir: 'str | Path' = 'data/wikitext103', tokenizer: 'PreTrainedTokenizerFast | None' = None, min_tokens: 'int' = 64, max_tokens: 'int' = 256, seed: 'int' = 42) -> 'tuple[list[str], list[str], list[str]]'
+    # Return cleaned (train, validation, test) paragraph lists.
+def load_wikitext103(cache_dir: 'str | Path' = 'data/wikitext103') -> 'DatasetDict'
+    # Download (or load cached) WikiText-103 and return the raw DatasetDict.
+def tokenizer_slug(tokenizer: 'PreTrainedTokenizerFast') -> 'str'
+
+## covertext.common.generation
+def isolate_stego_context(context: 'str') -> 'str'
+    # Put a space between context and stego so BPE cannot merge across the boundary.
+def mask_special_logits(logits: 'torch.Tensor', tokenizer: 'PreTrainedTokenizerFast') -> 'torch.Tensor'
+def next_token_topk(model: 'PreTrainedModel', input_ids: 'torch.Tensor', tokenizer: 'PreTrainedTokenizerFast', temperature: 'float' = 1.0, top_k: 'int' = 50, past_key_values=None) -> 'tuple[list[float], list[int], object]'
+def reversible_subset(tokenizer: 'PreTrainedTokenizerFast', generated: 'list[int]', probs: 'list[float]', token_ids: 'list[int]') -> 'tuple[list[float], list[int]]'
+    # Keep only tokens that round-trip through decode → encode.
+def topk_probs(logits: 'torch.Tensor', top_k: 'int') -> 'tuple[torch.Tensor, torch.Tensor]'
+
+## covertext.common.interfaces
+class Detector
+    __init__(self, /, *args, **kwargs)
+    score(self, text: 'str', **kwargs) -> 'float'
+class Encoder
+    __init__(self, /, *args, **kwargs)
+    decode(self, stego_text: 'str', context: 'str', num_bits: 'int', **kwargs) -> 'str'
+    encode(self, payload_bits: 'str', context: 'str', **kwargs) -> 'str'
+
+## covertext.common.model
+def generate_completion(model: 'PreTrainedModel', tokenizer: 'PreTrainedTokenizerFast', prompt: 'str', max_new_tokens: 'int' = 50) -> 'str'
+    # Generate a completion for ``prompt``, excluding the prompt text.
+def get_next_token_probs(model: 'PreTrainedModel', tokenizer: 'PreTrainedTokenizerFast', context: 'str', top_k: 'int | None' = None, temperature: 'float' = 1.0) -> 'tuple[torch.Tensor, torch.Tensor]'
+    # Return next-token probabilities and vocab ids for ``context``.
+def load_model(model_id: 'str' = 'Qwen/Qwen2.5-0.5B-Instruct', device: 'str | None' = None) -> 'tuple[PreTrainedModel, PreTrainedTokenizerFast]'
+    # Load a causal LM and its tokenizer, moved to ``device`` in eval mode.
+
+## covertext.common.payload
+def bits_to_bytes(bits: 'str') -> 'bytes'
+    # Convert a bitstring to bytes, padding with trailing zeros to a multiple of 8.
+def bits_to_hex(bits: 'str') -> 'str'
+    # Convert a bitstring to hex, padding with trailing zeros to a multiple of 4.
+def bytes_to_bits(data: 'bytes', bit_length: 'int | None' = None) -> 'str'
+    # Convert bytes to a bitstring.
+def generate_payload(num_bits: 'int', seed: 'int | None' = None) -> 'str'
+    # Return a string of ``'0'``/``'1'`` characters of length ``num_bits``.
+def hex_to_bits(hex_str: 'str', bit_length: 'int | None' = None) -> 'str'
+    # Convert hex to a bitstring (4 bits per digit).
+
+## covertext.common.schema
+class StegoRecord
+    __init__(self, cover_text: 'str', stego_text: 'str', payload_bits: 'str', method_name: 'str', model_name: 'str', generation_settings: 'dict[str, Any]' = <factory>, record_id: 'str' = <factory>) -> None
+    to_dict(self) -> 'dict[str, Any]'
+    to_json(self) -> 'str'
+def load_records(path: 'str | Path') -> 'list[StegoRecord]'
+    # Read a JSON array from a file and return a list of StegoRecord.
+def save_records(records: 'list[StegoRecord]', path: 'str | Path') -> 'None'
+    # Write a JSON array of records to a file.
+
+## covertext.demo
+
+## covertext.demo.cli
+def main() -> None
+
+## covertext.detector
+
+## covertext.detector.corpus
+def build_clean_corpus(cache_dir: 'str | Path' = 'data/wikitext103', tokenizer: 'PreTrainedTokenizerFast | None' = None, min_tokens: 'int' = 64, max_tokens: 'int' = 256) -> 'list[str]'
+    # Return the WikiText-103 test split as the detector's clean corpus.
+def get_encoder_contexts(cache_dir: 'str | Path' = 'data/wikitext103', tokenizer: 'PreTrainedTokenizerFast | None' = None, min_tokens: 'int' = 64, max_tokens: 'int' = 256) -> 'list[str]'
+    # Return the WikiText-103 train split as encoder cover/context text.
+def load_corpus(path: 'str | Path') -> 'list[str]'
+def save_corpus(paragraphs: 'list[str]', path: 'str | Path') -> 'None'
+def verify_no_overlap(clean_corpus: 'list[str]', encoder_contexts: 'list[str]') -> 'bool'
+    # Return True if the two sets are disjoint; raise ValueError otherwise.
+
+## covertext.detector.ppl_detector
+class PPLDetector
+    __init__(self, model: 'PreTrainedModel', tokenizer: 'PreTrainedTokenizerFast', method: 'str' = 'combined', reference_ppl: 'float | None' = None, reference_kl: 'float | None' = None)
+    calibrate(self, clean_texts: 'list[str]') -> 'None'
+    compute_kl_divergence(self, text: 'str') -> 'float'
+    compute_ppl(self, text: 'str') -> 'float'
+    compute_token_log_probs(self, text: 'str') -> 'list[float]'
+    score(self, text: 'str', **kwargs) -> 'float'
+
+## covertext.detector.stub
+class StubDetector
+    __init__(self, seed: 'int' = 42)
+    score(self, text: 'str', **kwargs) -> 'float'
+
+## covertext.encoder
+
+## covertext.encoder.ac
+class ACEncoder
+    __init__(self, model: 'PreTrainedModel', tokenizer: 'PreTrainedTokenizerFast', precision: 'int' = 32, top_k: 'int' = 50, temperature: 'float' = 1.0)
+    decode(self, stego_text: 'str', context: 'str', num_bits: 'int', **kwargs) -> 'str'
+    encode(self, payload_bits: 'str', context: 'str', max_tokens: 'int' = 100, **kwargs) -> 'str'
+
+## covertext.encoder.arithmetic
+class ArithmeticCoder
+    __init__(self, precision: 'int' = 32)
+    decode(self, symbols: 'Sequence[int]', distributions: 'Sequence[Sequence[float]]', num_bits: 'int') -> 'str'
+    encode(self, bits: 'str', distributions: 'Sequence[Sequence[float]]') -> 'list[int]'
+    start_decode(self, num_bits: 'int') -> 'DecodeStream'
+    start_encode(self, bits: 'str') -> 'EncodeStream'
+class DecodeStream
+    __init__(self, coder: 'ArithmeticCoder', num_bits: 'int') -> 'None'
+    clone(self) -> 'DecodeStream'
+    finish(self, num_bits: 'int | None' = None) -> 'str'
+    step(self, symbol: 'int', probs: 'Sequence[float]') -> 'None'
+class EncodeStream
+    __init__(self, coder: 'ArithmeticCoder', bits: 'str') -> 'None'
+    step(self, probs: 'Sequence[float]') -> 'int'
+
+## covertext.encoder.mec_encoder
+class MECEncoder
+    __init__(self, model: 'PreTrainedModel', tokenizer: 'PreTrainedTokenizerFast', top_k: 'int' = 50, temperature: 'float' = 1.0, mec_algorithm: 'str' = 'greedy', seed: 'int' = 0, precision: 'int' = 32)
+    decode(self, stego_text: 'str', context: 'str', num_bits: 'int', **kwargs) -> 'str'
+    encode(self, payload_bits: 'str', context: 'str', max_tokens: 'int' = 100, **kwargs) -> 'str'
+def bin_partition(probs: 'list[float]', n_bits: 'int') -> 'tuple[list[int], list[float]]'
+    # Assign each token to exactly one of ``2**n_bits`` bins, balancing mass.
+def greedy_mec(p: 'np.ndarray', q: 'np.ndarray') -> 'np.ndarray'
+    # Greedy two-marginal minimum-entropy coupling (Kocaoglu et al., 2017).
+
+## covertext.encoder.stub
+class StubEncoder
+    __init__(self, /, *args, **kwargs)
+    decode(self, stego_text: 'str', context: 'str', num_bits: 'int', **kwargs) -> 'str'
+    encode(self, payload_bits: 'str', context: 'str', **kwargs) -> 'str'
+
+## covertext.eval
+
+## covertext.eval.metrics
+def capacity_bpt(payload_bits: 'int', num_tokens: 'int') -> 'float'
+    # Capacity in bits per token.
+def compute_auroc(scores: 'list[float]', labels: 'list[int]') -> 'float'
+    # AUROC. labels: 0 = clean, 1 = stego. scores: higher = more likely stego.
+def compute_perplexity(log_probs: 'list[float]') -> 'float'
+    # Perplexity from per-token natural-log probabilities: exp(-mean(log_probs)).
+def compute_roc_curve(scores: 'list[float]', labels: 'list[int]') -> 'tuple[np.ndarray, np.ndarray, np.ndarray]'
+    # ROC curve. Returns (fpr, tpr, thresholds).
+def decode_accuracy_bit(original: 'str', recovered: 'str') -> 'float'
+    # Bit-level accuracy. Excess bits from a length mismatch count as errors.
+def decode_accuracy_exact(original: 'str', recovered: 'str') -> 'bool'
+    # Exact payload match.
+def fluency_loss(stego_ppl: 'float', clean_ppl: 'float') -> 'float'
+    # Perplexity delta. Positive means the stego text is less fluent.
