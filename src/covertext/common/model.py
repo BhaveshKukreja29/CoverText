@@ -24,7 +24,7 @@ def load_model(
     """Load a causal LM and its tokenizer, moved to ``device`` in eval mode."""
     device = _resolve_device(device)
     dtype = torch.float32 if device == "cpu" else torch.float16
-    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=dtype)
+    model = AutoModelForCausalLM.from_pretrained(model_id, dtype=dtype)
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model.to(device)
     model.eval()

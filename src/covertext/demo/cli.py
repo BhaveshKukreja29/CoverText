@@ -19,6 +19,8 @@ from covertext.common.interfaces import Detector, Encoder
 from covertext.common.payload import bits_to_text, text_to_bits
 from covertext.common.registry import build_detector, build_encoder
 
+DEFAULT_CONTEXT = "The following is a short note."
+
 
 def encode_message(
     encoder: Encoder,
@@ -93,14 +95,14 @@ def _parser() -> argparse.ArgumentParser:
     encode = sub.add_parser("encode", help="Hide a message in text")
     encode.add_argument("--message", help="Unicode message. Mutually exclusive with --payload")
     encode.add_argument("--payload", help="Raw bitstring of 0 and 1")
-    encode.add_argument("--context", default="The following is a short note.")
+    encode.add_argument("--context", default=DEFAULT_CONTEXT)
     encode.add_argument("--encoder", default="stub")
     encode.add_argument("--max-tokens", type=int, default=100)
     encode.set_defaults(func=_cmd_encode)
 
     decode = sub.add_parser("decode", help="Recover a payload from stego text")
     decode.add_argument("--text", required=True)
-    decode.add_argument("--context", default="The following is a short note.")
+    decode.add_argument("--context", default=DEFAULT_CONTEXT)
     decode.add_argument("--num-bits", type=int, required=True)
     decode.add_argument("--encoder", default="stub")
     decode.set_defaults(func=_cmd_decode)
@@ -147,7 +149,7 @@ def _cmd_detect(args: argparse.Namespace) -> None:
 def _load_encoder(name: str) -> Encoder:
     model = tokenizer = None
     if name.strip().lower() != "stub":
-        model, tokenizer = _load_model()
+        model, tokenizer = load_shared_model()
     return build_encoder(name, model, tokenizer)
 
 
@@ -157,7 +159,7 @@ def _load_detectors(
     needs_model = any(name.lower() != "stub" for name in names)
     model = tokenizer = None
     if needs_model:
-        model, tokenizer = _load_model()
+        model, tokenizer = load_shared_model()
     detectors: list[Detector] = []
     for name in names:
         kwargs = {"seed": seed} if name.lower() in {"stub", "cls"} else {}
@@ -190,7 +192,7 @@ def _read_lines(path: str) -> list[str]:
 _MODEL = None
 
 
-def _load_model():
+def load_shared_model():
     global _MODEL
     if _MODEL is None:
         from covertext.common.model import load_model
