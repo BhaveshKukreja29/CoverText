@@ -1,3 +1,5 @@
+import json
+
 from covertext.common.interfaces import Detector, Encoder
 from covertext.common.schema import StegoRecord, load_records, save_records
 from covertext.detector.stub import StubDetector
@@ -15,6 +17,23 @@ def test_stego_record_roundtrip():
     )
     restored = StegoRecord.from_json(record.to_json())
     assert restored == record
+
+
+def test_load_records_accepts_experiment_document(tmp_path):
+    record = StegoRecord(
+        cover_text="a",
+        stego_text="b",
+        payload_bits="01",
+        method_name="STUB",
+        model_name="m",
+        record_id="id-1",
+    )
+    path = tmp_path / "wrapped.json"
+    path.write_text(
+        json.dumps({"summary": [{"auroc": 0.5}], "records": [record.to_dict()]}),
+        encoding="utf-8",
+    )
+    assert load_records(path) == [record]
 
 
 def test_save_load_records(tmp_path):
