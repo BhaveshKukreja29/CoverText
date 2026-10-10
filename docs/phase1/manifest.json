@@ -1,0 +1,19 @@
+{
+  "seed": 0,
+  "n_samples": 4,
+  "n_contexts": 8,
+  "payload_sizes": [
+    8,
+    16,
+    32,
+    64
+  ],
+  "device": "cpu",
+  "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+  "results": "docs/phase1/sweep.json",
+  "charts": {
+    "capacity_auroc": "docs/phase1/capacity_auroc.png",
+    "decode_accuracy": "docs/phase1/decode_accuracy.png",
+    "fluency_loss": "docs/phase1/fluency_loss.png"
+  }
+}

@@ -1,0 +1,1350 @@
+{
+  "summary": [
+    {
+      "encoder": "AC",
+      "detector": "PPL",
+      "payload_bits": 8,
+      "n": 4,
+      "capacity_bpt": 2.119047619047619,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 61447994.94042884,
+      "n_fluency": 4,
+      "auroc": 0.9375
+    },
+    {
+      "encoder": "AC",
+      "detector": "PPL",
+      "payload_bits": 16,
+      "n": 4,
+      "capacity_bpt": 2.3781512605042017,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 2574.1729254029224,
+      "n_fluency": 4,
+      "auroc": 1.0
+    },
+    {
+      "encoder": "AC",
+      "detector": "PPL",
+      "payload_bits": 32,
+      "n": 4,
+      "capacity_bpt": 1.8465273856578204,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 17.460580284104648,
+      "n_fluency": 4,
+      "auroc": 0.8125
+    },
+    {
+      "encoder": "AC",
+      "detector": "PPL",
+      "payload_bits": 64,
+      "n": 4,
+      "capacity_bpt": 2.144457725054523,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 37.84618412178734,
+      "n_fluency": 4,
+      "auroc": 0.375
+    },
+    {
+      "encoder": "AC",
+      "detector": "CLS",
+      "payload_bits": 8,
+      "n": 4,
+      "capacity_bpt": 2.119047619047619,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 61447994.94042884,
+      "n_fluency": 4,
+      "auroc": 1.0
+    },
+    {
+      "encoder": "AC",
+      "detector": "CLS",
+      "payload_bits": 16,
+      "n": 4,
+      "capacity_bpt": 2.3781512605042017,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 2574.1729254029224,
+      "n_fluency": 4,
+      "auroc": 1.0
+    },
+    {
+      "encoder": "AC",
+      "detector": "CLS",
+      "payload_bits": 32,
+      "n": 4,
+      "capacity_bpt": 1.8465273856578204,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 17.460580284104648,
+      "n_fluency": 4,
+      "auroc": 1.0
+    },
+    {
+      "encoder": "AC",
+      "detector": "CLS",
+      "payload_bits": 64,
+      "n": 4,
+      "capacity_bpt": 2.144457725054523,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 37.84618412178734,
+      "n_fluency": 4,
+      "auroc": 0.8125
+    },
+    {
+      "encoder": "MEC",
+      "detector": "PPL",
+      "payload_bits": 8,
+      "n": 4,
+      "capacity_bpt": 2.5,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 61447992.02879545,
+      "n_fluency": 4,
+      "auroc": 0.8125
+    },
+    {
+      "encoder": "MEC",
+      "detector": "PPL",
+      "payload_bits": 16,
+      "n": 4,
+      "capacity_bpt": 2.808080808080808,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 123.55953787404401,
+      "n_fluency": 4,
+      "auroc": 0.75
+    },
+    {
+      "encoder": "MEC",
+      "detector": "PPL",
+      "payload_bits": 32,
+      "n": 4,
+      "capacity_bpt": 2.6293183940242764,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 157.4823965541755,
+      "n_fluency": 4,
+      "auroc": 0.8125
+    },
+    {
+      "encoder": "MEC",
+      "detector": "PPL",
+      "payload_bits": 64,
+      "n": 4,
+      "capacity_bpt": 2.0965477118071787,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 11.19611541917147,
+      "n_fluency": 4,
+      "auroc": 0.75
+    },
+    {
+      "encoder": "MEC",
+      "detector": "CLS",
+      "payload_bits": 8,
+      "n": 4,
+      "capacity_bpt": 2.5,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 61447992.02879545,
+      "n_fluency": 4,
+      "auroc": 1.0
+    },
+    {
+      "encoder": "MEC",
+      "detector": "CLS",
+      "payload_bits": 16,
+      "n": 4,
+      "capacity_bpt": 2.808080808080808,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 123.55953787404401,
+      "n_fluency": 4,
+      "auroc": 1.0
+    },
+    {
+      "encoder": "MEC",
+      "detector": "CLS",
+      "payload_bits": 32,
+      "n": 4,
+      "capacity_bpt": 2.6293183940242764,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 157.4823965541755,
+      "n_fluency": 4,
+      "auroc": 1.0
+    },
+    {
+      "encoder": "MEC",
+      "detector": "CLS",
+      "payload_bits": 64,
+      "n": 4,
+      "capacity_bpt": 2.0965477118071787,
+      "decode_accuracy_bit": 1.0,
+      "decode_accuracy_exact": 1.0,
+      "fluency_loss": 11.19611541917147,
+      "n_fluency": 4,
+      "auroc": 1.0
+    }
+  ],
+  "records": [
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1958",
+      "payload_bits": "00101010",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.0,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -2.545956525335747,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 8,
+        "auroc": 0.9375
+      },
+      "record_id": "c1d0f044-fd8e-4aa0-94ba-e26def16ac17"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": "103rd Street on",
+      "payload_bits": "01000010",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.3333333333333333,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 95.11139284421839,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 8,
+        "auroc": 0.9375
+      },
+      "record_id": "b3189230-75e2-4c97-b236-9d2c07f50063"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": " - Ruf",
+      "payload_bits": "10101110",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 4.0,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 245791435.29775777,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 8,
+        "auroc": 0.9375
+      },
+      "record_id": "4552e31e-67d8-4674-961d-05f113a20491"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "15 of its articles also include",
+      "payload_bits": "01110111",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.1428571428571428,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 451.8985212661761,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 8,
+        "auroc": 0.9375
+      },
+      "record_id": "dc31ec3e-c734-4534-b439-fe7f86c6bd03"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1952 was the year that Balabushka graduated from school. Based",
+      "payload_bits": "0000111000101111",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 0.9411764705882353,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 59.19678845055188,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 16,
+        "auroc": 1.0
+      },
+      "record_id": "27b652b8-fc49-436c-a701-ce069e15aa8b"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": " - The Long Island Railroad is an",
+      "payload_bits": "0110100011111010",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.2857142857142856,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 97.81028997438995,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 16,
+        "auroc": 1.0
+      },
+      "record_id": "08ff393a-8350-4a68-917b-1ba093366663"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": "85 reviews mentioned",
+      "payload_bits": "1110011110011100",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 4.0,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 9972.85091755102,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 16,
+        "auroc": 1.0
+      },
+      "record_id": "6125ef69-69fd-47d8-8ea4-ce432755c455"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "2018 Volume : <",
+      "payload_bits": "0001111010111011",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.2857142857142856,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 166.83370563572734,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 16,
+        "auroc": 1.0
+      },
+      "record_id": "116dfa16-339f-40ab-b72a-9ec16ae038f1"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1) What was Balabushka 's original occupation?\nA:\nBalabushka's original occupation was as a wooden toy designer and maker, working for the Educational Equipment Company. He went",
+      "payload_bits": "10001111111000101111101001101100",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 0.8,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 5.458108546560386,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 32,
+        "auroc": 0.8125
+      },
+      "record_id": "661d06bd-dd57-4d03-9444-a0b8fd13652e"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": " - Port Washington Branch of the Long Island Rail Road is a branch line that runs from the John F. Kennedy Bay",
+      "payload_bits": "01111011101010100101111001011010",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.391304347826087,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -33.804777468096056,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 32,
+        "auroc": 0.8125
+      },
+      "record_id": "732c1e68-fb1d-493a-8e1a-8ba312acd3ff"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": " Question: How did the studio albums in this collection change",
+      "payload_bits": "11110010110110101001110011111110",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.909090909090909,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 71.86771057554319,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 32,
+        "auroc": 0.8125
+      },
+      "record_id": "fc4cc2cf-c7ab-4b9f-826d-3cb44a4bded0"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "5 . @-@ @-@ @-@  The current",
+      "payload_bits": "10101000010111110001000110110111",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.2857142857142856,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 26.32127948241107,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 32,
+        "auroc": 0.8125
+      },
+      "record_id": "e10223bc-04ee-45ca-ad2e-e444e3cd9d32"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1. Do you know that Balabushka's friends always thought his finger would still hurt his middle finger,",
+      "payload_bits": "0111111101001110001011000110000101011111101101010001011010010100",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.782608695652174,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 178.38879772851234,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 64,
+        "auroc": 0.375
+      },
+      "record_id": "044325b2-5f17-46cd-952e-637a3ee8563c"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": "6-406\nWhat would have been the purpose of this expansion? The purpose of this expansion would have been to provide more routes and",
+      "payload_bits": "1101101000001100101001100000011110110110000100101000001110111000",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.206896551724138,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -42.21386316671626,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 64,
+        "auroc": 0.375
+      },
+      "record_id": "267a6de9-c55a-4d25-8d25-cf54c77c95cd"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": " Given the paragraph above, answer the following question: Is Rufus Wainwright a Canadian?\nAnswer:\n\nDetermined to get his own album release, Rufus Wainwright made eight separate record label releases at",
+      "payload_bits": "0001000110010100010001100000100110110000101101011010101100110001",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.5238095238095237,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 1.1573458188570562,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 64,
+        "auroc": 0.375
+      },
+      "record_id": "82c8ffda-bb23-4460-bc25-69a4dbb0b514"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "15 January 2013 . The International Association of Business Communicators is published quarterly on the <unk> and <unk> . The journal",
+      "payload_bits": "0111010110111110101010010011000000110111011000010110011001111010",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.064516129032258,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 14.05245610649622,
+        "encoder": "AC",
+        "detector": "PPL",
+        "payload_bits": 64,
+        "auroc": 0.375
+      },
+      "record_id": "6aa1e3b9-c087-4ee6-bbd6-639684d8f201"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1958",
+      "payload_bits": "00101010",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.0,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -2.545956525335747,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 8,
+        "auroc": 1.0
+      },
+      "record_id": "d9dcc760-e966-4cdb-8758-59d17a768577"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": "103rd Street on",
+      "payload_bits": "01000010",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.3333333333333333,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 95.11139284421839,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 8,
+        "auroc": 1.0
+      },
+      "record_id": "a22d96b6-30e5-4b29-bbe8-b03bafe0a5ff"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": " - Ruf",
+      "payload_bits": "10101110",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 4.0,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 245791435.29775777,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 8,
+        "auroc": 1.0
+      },
+      "record_id": "584e2cc3-9e3b-4737-818b-89a416d1df27"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "15 of its articles also include",
+      "payload_bits": "01110111",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.1428571428571428,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 451.8985212661761,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 8,
+        "auroc": 1.0
+      },
+      "record_id": "ddc45f23-5bd5-4639-86b4-61457f41427d"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1952 was the year that Balabushka graduated from school. Based",
+      "payload_bits": "0000111000101111",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 0.9411764705882353,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 59.19678845055188,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 16,
+        "auroc": 1.0
+      },
+      "record_id": "29dc24db-c6e5-4df5-a0c0-0b7190820f09"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": " - The Long Island Railroad is an",
+      "payload_bits": "0110100011111010",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.2857142857142856,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 97.81028997438995,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 16,
+        "auroc": 1.0
+      },
+      "record_id": "fc6cebd0-641f-4394-bd87-fa9400526e32"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": "85 reviews mentioned",
+      "payload_bits": "1110011110011100",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 4.0,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 9972.85091755102,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 16,
+        "auroc": 1.0
+      },
+      "record_id": "3f24cd1f-69fe-4ae8-89cc-a11148841481"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "2018 Volume : <",
+      "payload_bits": "0001111010111011",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.2857142857142856,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 166.83370563572734,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 16,
+        "auroc": 1.0
+      },
+      "record_id": "fd091276-af01-407d-9729-a789d91684c1"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1) What was Balabushka 's original occupation?\nA:\nBalabushka's original occupation was as a wooden toy designer and maker, working for the Educational Equipment Company. He went",
+      "payload_bits": "10001111111000101111101001101100",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 0.8,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 5.458108546560386,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 32,
+        "auroc": 1.0
+      },
+      "record_id": "91c0a657-6630-4502-959b-203d4db4937b"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": " - Port Washington Branch of the Long Island Rail Road is a branch line that runs from the John F. Kennedy Bay",
+      "payload_bits": "01111011101010100101111001011010",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.391304347826087,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -33.804777468096056,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 32,
+        "auroc": 1.0
+      },
+      "record_id": "511da4eb-1964-44e3-be05-44b67dab562d"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": " Question: How did the studio albums in this collection change",
+      "payload_bits": "11110010110110101001110011111110",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.909090909090909,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 71.86771057554319,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 32,
+        "auroc": 1.0
+      },
+      "record_id": "f63f7100-d5a6-4503-8ecb-0940b3a86119"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "5 . @-@ @-@ @-@  The current",
+      "payload_bits": "10101000010111110001000110110111",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.2857142857142856,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 26.32127948241107,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 32,
+        "auroc": 1.0
+      },
+      "record_id": "e52b95ee-eb3c-4b9c-ab61-a532405a62a6"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1. Do you know that Balabushka's friends always thought his finger would still hurt his middle finger,",
+      "payload_bits": "0111111101001110001011000110000101011111101101010001011010010100",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.782608695652174,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 178.38879772851234,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 64,
+        "auroc": 0.8125
+      },
+      "record_id": "2ed05666-e568-49f8-847b-4d737a659e13"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": "6-406\nWhat would have been the purpose of this expansion? The purpose of this expansion would have been to provide more routes and",
+      "payload_bits": "1101101000001100101001100000011110110110000100101000001110111000",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.206896551724138,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -42.21386316671626,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 64,
+        "auroc": 0.8125
+      },
+      "record_id": "3baeb902-58d8-4e00-9559-89989cf7c700"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": " Given the paragraph above, answer the following question: Is Rufus Wainwright a Canadian?\nAnswer:\n\nDetermined to get his own album release, Rufus Wainwright made eight separate record label releases at",
+      "payload_bits": "0001000110010100010001100000100110110000101101011010101100110001",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.5238095238095237,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 1.1573458188570562,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 64,
+        "auroc": 0.8125
+      },
+      "record_id": "845f50d2-7611-4086-8fd7-1b808b86d8af"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "15 January 2013 . The International Association of Business Communicators is published quarterly on the <unk> and <unk> . The journal",
+      "payload_bits": "0111010110111110101010010011000000110111011000010110011001111010",
+      "method_name": "AC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.064516129032258,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 14.05245610649622,
+        "encoder": "AC",
+        "detector": "CLS",
+        "payload_bits": 64,
+        "auroc": 0.8125
+      },
+      "record_id": "07b24adb-ab5f-4e8c-90bc-b51c133acaf5"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1958",
+      "payload_bits": "00101010",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.0,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -2.545956525335747,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 8,
+        "auroc": 0.8125
+      },
+      "record_id": "b0e0c967-aeea-4b2a-9f1a-ae853942fbe7"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": "103rd St .\n",
+      "payload_bits": "01000010",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.3333333333333333,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 516.3815903639785,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 8,
+        "auroc": 0.8125
+      },
+      "record_id": "55211889-f46f-4a1a-b237-8d3540e045d5"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": " - Ruf",
+      "payload_bits": "10101110",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 4.0,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 245791435.29775777,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 8,
+        "auroc": 0.8125
+      },
+      "record_id": "dd768a4f-b5d9-4315-9999-180c01777508"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "155",
+      "payload_bits": "01110111",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.6666666666666665,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 18.981790194239117,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 8,
+        "auroc": 0.8125
+      },
+      "record_id": "9920f60b-98c3-4fdd-8c9d-826576ec5b17"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1952 was the year that he married Evelyn",
+      "payload_bits": "0000111000101111",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.4545454545454546,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 23.272591016482995,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 16,
+        "auroc": 0.75
+      },
+      "record_id": "34a6dad6-bf83-4d20-bdc0-e2b81062d33d"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": " - The Long Island Railroad and",
+      "payload_bits": "0110100011111010",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.6666666666666665,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 204.5073258419902,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 16,
+        "auroc": 0.75
+      },
+      "record_id": "d24ac37a-d39b-4b42-98a8-da8e3ea23cd6"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": "85 of",
+      "payload_bits": "1110011110011100",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 5.333333333333333,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 279.1051458292291,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 16,
+        "auroc": 0.75
+      },
+      "record_id": "4f640f09-6385-4c07-ad2f-bac362218bff"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "2019-01-0",
+      "payload_bits": "0001111010111011",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.7777777777777777,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -12.646911191526277,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 16,
+        "auroc": 0.75
+      },
+      "record_id": "a3503ef2-96ba-4bd2-b14d-61d932cb9cf7"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1) What was Balabushka 's formal beginning in life",
+      "payload_bits": "10001111111000101111101001101100",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.2857142857142856,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 238.93258343427252,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 32,
+        "auroc": 0.8125
+      },
+      "record_id": "70cb151e-4c7e-4744-af68-b2c88bf73951"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": " - Port Washington Branch of the Long Island Rail Road is a major east west passenger light",
+      "payload_bits": "01111011101010100101111001011010",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.8823529411764706,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 70.51861484772931,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 32,
+        "auroc": 0.8125
+      },
+      "record_id": "42007ef8-90a4-4bdf-b11a-b4e2ac8a0dcb"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": " Question: How would you describe Rufus Wainwright's music style?   - traditional",
+      "payload_bits": "11110010110110101001110011111110",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.7777777777777777,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 6.0506331018314725,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 32,
+        "auroc": 0.8125
+      },
+      "record_id": "263c1884-d351-48a3-8854-033c26ab27e4"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "5 . It has a long ~",
+      "payload_bits": "10101000010111110001000110110111",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 4.571428571428571,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 314.4277548328687,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 32,
+        "auroc": 0.8125
+      },
+      "record_id": "a510edf9-d2a5-49a2-9dda-397f762a4c18"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1. Do you find it hard to work while at Balabushka 's job? 2. Can you picture Balabushka as he",
+      "payload_bits": "0111111101001110001011000110000101011111101101010001011010010100",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.064516129032258,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 12.378804124423812,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 64,
+        "auroc": 0.75
+      },
+      "record_id": "c0c38a35-1236-4894-8046-afab3f87bc7f"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": "6th Avenue could have passed under the Bayside Greenbelt .\nAnswer the following question: Which street would have gotten closer",
+      "payload_bits": "1101101000001100101001100000011110110110000100101000001110111000",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.56,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -4.163433093801338,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 64,
+        "auroc": 0.75
+      },
+      "record_id": "990f5701-8f55-48be-8856-a327b5d976d6"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": " Given the paragraph above, answer the following question: Is Rufus Wainwright a Canadian citizen?\n\nChoices:\nA). no\nB). yes\nB). yes\nYou can determine this by referencing the information we have. For",
+      "payload_bits": "0001000110010100010001100000100110110000101101011010101100110001",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.391304347826087,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -8.49260173378635,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 64,
+        "auroc": 0.75
+      },
+      "record_id": "321995ee-88b2-4f07-9a02-8d538e73358a"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "15 January 2010 - 2011 , IABC was @-@ known for publishing \" How Do",
+      "payload_bits": "0111010110111110101010010011000000110111011000010110011001111010",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.3703703703703702,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 45.06169237984975,
+        "encoder": "MEC",
+        "detector": "PPL",
+        "payload_bits": 64,
+        "auroc": 0.75
+      },
+      "record_id": "8bc800f5-9ccd-4975-833c-0a6bbd217e2a"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1958",
+      "payload_bits": "00101010",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.0,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -2.545956525335747,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 8,
+        "auroc": 1.0
+      },
+      "record_id": "1cceafb4-56b3-49bb-927f-2ced49c83bf2"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": "103rd St .\n",
+      "payload_bits": "01000010",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.3333333333333333,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 516.3815903639785,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 8,
+        "auroc": 1.0
+      },
+      "record_id": "4dc27563-17fc-47e1-a194-cd2556a58974"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": " - Ruf",
+      "payload_bits": "10101110",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 4.0,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 245791435.29775777,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 8,
+        "auroc": 1.0
+      },
+      "record_id": "75ca313e-2809-43e8-a488-5529031eac08"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "155",
+      "payload_bits": "01110111",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.6666666666666665,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 18.981790194239117,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 8,
+        "auroc": 1.0
+      },
+      "record_id": "8d54a6da-d387-4013-ab90-fc50fad5aab9"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1952 was the year that he married Evelyn",
+      "payload_bits": "0000111000101111",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.4545454545454546,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 23.272591016482995,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 16,
+        "auroc": 1.0
+      },
+      "record_id": "9001ae7b-fdc7-404c-9940-e71945dc1cd2"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": " - The Long Island Railroad and",
+      "payload_bits": "0110100011111010",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.6666666666666665,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 204.5073258419902,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 16,
+        "auroc": 1.0
+      },
+      "record_id": "2d09b75b-0130-4ebf-8897-be08213e023b"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": "85 of",
+      "payload_bits": "1110011110011100",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 5.333333333333333,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 279.1051458292291,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 16,
+        "auroc": 1.0
+      },
+      "record_id": "21d678f3-e698-49ef-9d3f-5d4586169f0f"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "2019-01-0",
+      "payload_bits": "0001111010111011",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.7777777777777777,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -12.646911191526277,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 16,
+        "auroc": 1.0
+      },
+      "record_id": "4e5d679d-7599-48d2-a4b5-bc68935733f1"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1) What was Balabushka 's formal beginning in life",
+      "payload_bits": "10001111111000101111101001101100",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.2857142857142856,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 238.93258343427252,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 32,
+        "auroc": 1.0
+      },
+      "record_id": "cff98cb7-1b9d-4599-bf97-a02a218f5fae"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": " - Port Washington Branch of the Long Island Rail Road is a major east west passenger light",
+      "payload_bits": "01111011101010100101111001011010",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.8823529411764706,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 70.51861484772931,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 32,
+        "auroc": 1.0
+      },
+      "record_id": "f61ad8b6-a423-4c74-9aad-4996f9713873"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": " Question: How would you describe Rufus Wainwright's music style?   - traditional",
+      "payload_bits": "11110010110110101001110011111110",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.7777777777777777,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 6.0506331018314725,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 32,
+        "auroc": 1.0
+      },
+      "record_id": "6c1b6ab7-8232-469a-9d96-35c4a1941624"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "5 . It has a long ~",
+      "payload_bits": "10101000010111110001000110110111",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 4.571428571428571,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 314.4277548328687,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 32,
+        "auroc": 1.0
+      },
+      "record_id": "fee6c5e6-5ddd-45c2-bdd6-b851e16972d8"
+    },
+    {
+      "cover_text": "Balabushka 's first job was as a wooden toy designer and maker , working for the Educational Equipment Company , then located at 71 West 23rd St. , in Manhattan , which made building blocks for nurseries and schools . Thereafter he built children 's furniture for the Playtime <unk> Company located on Greenwich Village 's Jane Street . While on the job , Balabushka lost his middle finger to a band saw . Using a wooden mold , he made himself a replacement plastic finger of such craftsmanship that even his friends did not realize his loss until long after the incident . As Balabushka 's carpentry skills deepened he began building accordions and other detailed carpentry pieces on his own time . In 1949 , Balabushka applied for patent on a folding leg bracket mechanism he invented , which was granted in 1951 .",
+      "stego_text": "1. Do you find it hard to work while at Balabushka 's job? 2. Can you picture Balabushka as he",
+      "payload_bits": "0111111101001110001011000110000101011111101101010001011010010100",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.064516129032258,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 12.378804124423812,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 64,
+        "auroc": 1.0
+      },
+      "record_id": "2971293b-8a53-4ec8-a5a9-810b44b88958"
+    },
+    {
+      "cover_text": "Under several expansion plans of the New York City Subway , including the Dual Contracts and the IND Second System , the Flushing Line would have been extended past Main Street , along and / or parallel to the right @-@ of @-@ way of the nearby Port Washington Branch of the Long Island Rail Road towards Bell Boulevard in Bayside . A spur line would have branched off north along 149th Street towards College Point .",
+      "stego_text": "6th Avenue could have passed under the Bayside Greenbelt .\nAnswer the following question: Which street would have gotten closer",
+      "payload_bits": "1101101000001100101001100000011110110110000100101000001110111000",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.56,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -4.163433093801338,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 64,
+        "auroc": 1.0
+      },
+      "record_id": "45ad9d7a-a7e6-4282-969a-9c213b607adf"
+    },
+    {
+      "cover_text": "House of Rufus is a collection of six studio albums , two live albums ( one being a double album ) , four additional albums of previously unreleased material , and six DVDs recorded by Canadian @-@ American singer @-@ songwriter Rufus Wainwright , reissued as a 19 @-@ disc box set in the United Kingdom on July 18 , 2011 . Wainwright 's official site claimed that the collection \" spans Rufus ' entire career and represents the most complete collection of Rufus Wainwright recordings to date . \" The box set 's title commemorates his five @-@ night residency of the same name at London 's Royal Opera House during July 18 \u2013 23 , 2011 . Only 3 @,@ 000 copies were produced for worldwide distribution . The collection contains \" hard @-@ to @-@ find \" tracks and is encased in a red velvet @-@ covered book . While some reviewers questioned the need for such an extensive collection , critical reception of the box set was mostly positive .",
+      "stego_text": " Given the paragraph above, answer the following question: Is Rufus Wainwright a Canadian citizen?\n\nChoices:\nA). no\nB). yes\nB). yes\nYou can determine this by referencing the information we have. For",
+      "payload_bits": "0001000110010100010001100000100110110000101101011010101100110001",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 1.391304347826087,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": -8.49260173378635,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 64,
+        "auroc": 1.0
+      },
+      "record_id": "bac248fe-65c6-486f-bf23-1789e41abbb1"
+    },
+    {
+      "cover_text": "Brent D. Ruben and Stacy M. <unk> ( August 15 , 2007 ) . Core Communication : A Guide to Organizational Assessment , Planning and Improvement . International Association of Business Communicators . ISBN <unk> . International Association of Business Communicators ( January 1982 ) . Without bias : a guidebook for nondiscriminatory communication . Wiley . ISBN 978 @-@ 0 @-@ 471 @-@ <unk> @-@ 4 . Tamara Gillis ; IABC ( 21 March 2011 ) . The IABC Handbook of Organizational Communication : A Guide to Internal Communication , Public Relations , Marketing , and Leadership . John Wiley & Sons . ISBN 978 @-@ 1 @-@ 118 @-@ <unk> @-@ 0 . IABC also publishes a monthly digital magazine Communication World . Recent issues have shared researched and first @-@ person , expert articles on connecting with Millennials , social <unk> and crisis communications .",
+      "stego_text": "15 January 2010 - 2011 , IABC was @-@ known for publishing \" How Do",
+      "payload_bits": "0111010110111110101010010011000000110111011000010110011001111010",
+      "method_name": "MEC",
+      "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "generation_settings": {
+        "capacity_bpt": 2.3703703703703702,
+        "decode_accuracy_bit": 1.0,
+        "decode_accuracy_exact": true,
+        "fluency_loss": 45.06169237984975,
+        "encoder": "MEC",
+        "detector": "CLS",
+        "payload_bits": 64,
+        "auroc": 1.0
+      },
+      "record_id": "538c9eff-0ea8-43f4-95ff-f5f52a5e12ea"
+    }
+  ]
+}
