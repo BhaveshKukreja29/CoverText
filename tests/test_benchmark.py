@@ -5,6 +5,7 @@ from covertext.common.payload import generate_payload
 from covertext.common.schema import load_records
 from covertext.encoder.stub import StubEncoder
 from covertext.eval.benchmark import PAYLOAD_SIZES, run_detector_benchmark, run_encoder_benchmark
+from covertext.eval.samples import EncodedSample, summarize_samples
 from covertext.eval.results import load_results, write_results
 
 
@@ -84,6 +85,19 @@ def test_encoder_benchmark_fluency_and_capacity_by_hand():
     assert row["capacity_bpt"] == (expected[0][0] + expected[1][0]) / 2
     assert row["fluency_loss"] == (expected[0][1] + expected[1][1]) / 2
     assert row["decode_accuracy_bit"] == 1.0
+
+
+def test_fluency_mean_skips_undefined_perplexities():
+    """A one-token continuation has no conditional perplexity and must not erase the rest."""
+    samples = [
+        EncodedSample("cover", "cover aa", "01", "01", 2, 10.0, 14.0),
+        EncodedSample("cover", "x", "01", "01", 1, 10.0, float("inf")),
+        EncodedSample("cover", "cover bb", "01", "01", 2, 10.0, 16.0),
+    ]
+    row = summarize_samples(samples, "STUB", None, 2, None, None)
+    assert row["fluency_loss"] == 5.0
+    assert row["n_fluency"] == 2
+    assert row["n"] == 3
 
 
 def test_detector_benchmark_logs_auroc_for_every_cell(tmp_path):

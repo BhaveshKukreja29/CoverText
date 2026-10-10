@@ -145,10 +145,17 @@ def summarize_samples(
     clean_scores: list[float] | None,
     stego_scores: list[float] | None,
 ) -> dict[str, Any]:
-    """Mean metrics. AUROC is defined only when both score lists are present."""
+    """Mean metrics. AUROC is defined only when both score lists are present.
+
+    ``fluency_loss`` averages the samples whose perplexities are both finite.
+    A one-token continuation has no conditional probability, so its perplexity
+    is undefined and is left out of the mean. ``n_fluency`` is the count that
+    entered the mean.
+    """
     if not samples:
         raise ValueError("samples must be non-empty")
     per_sample = [sample_metrics(sample) for sample in samples]
+    fluency_loss, n_fluency = _mean_finite(item["fluency_loss"] for item in per_sample)
     row: dict[str, Any] = {
         "encoder": encoder_name,
         "detector": detector_name,
@@ -161,7 +168,8 @@ def summarize_samples(
         "decode_accuracy_exact": statistics.fmean(
             float(item["decode_accuracy_exact"]) for item in per_sample
         ),
-        "fluency_loss": _mean_finite(item["fluency_loss"] for item in per_sample),
+        "fluency_loss": fluency_loss,
+        "n_fluency": n_fluency,
         "auroc": None,
     }
     if clean_scores is not None and stego_scores is not None:
@@ -213,8 +221,9 @@ def _fluency(sample: EncodedSample) -> float | None:
     return fluency_loss(sample.stego_ppl, sample.clean_ppl)
 
 
-def _mean_finite(values) -> float | None:
-    numbers = list(values)
-    if any(value is None or not math.isfinite(value) for value in numbers):
-        return None
-    return statistics.fmean(numbers)
+def _mean_finite(values) -> tuple[float | None, int]:
+    """Mean of the finite values, and how many entered that mean."""
+    numbers = [value for value in values if value is not None and math.isfinite(value)]
+    if not numbers:
+        return None, 0
+    return statistics.fmean(numbers), len(numbers)

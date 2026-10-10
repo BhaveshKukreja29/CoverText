@@ -112,6 +112,21 @@ def test_cls_implements_interface_and_refuses_unfitted_score():
         detector.score("clean")
 
 
+def test_blank_text_is_rejected():
+    detector = _detector()
+    with pytest.raises(ValueError, match="non-empty"):
+        detector.score("   ")
+    with pytest.raises(ValueError, match="non-empty"):
+        detector.sequence_features(["clean", " \n "])
+
+
+def test_feature_chunks_match_a_single_forward():
+    texts = ["clean", "LONG STEGO", "STEGO", "LONG clean"]
+    wide = _detector(batch_size=8).sequence_features(texts)
+    narrow = _detector(batch_size=1).sequence_features(texts)
+    assert torch.equal(wide, narrow)
+
+
 def test_batched_pool_matches_unpadded_suffix():
     detector = _detector(max_length=4)
     alone = detector.sequence_features(["clean"])

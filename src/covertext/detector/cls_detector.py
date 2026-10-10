@@ -104,22 +104,32 @@ class CLSDetector(Detector):
         return "CLS"
 
     def sequence_features(self, texts: list[str]) -> torch.Tensor:
-        """Last-layer, last-token hidden states, shape (len(texts), hidden)."""
+        """Last-layer, last-token hidden states, shape (len(texts), hidden).
+
+        The transformer runs in chunks of ``batch_size``. Pooling happens
+        inside each chunk, so padding never crosses a chunk boundary and the
+        activation memory stays proportional to one chunk, not to the corpus.
+        """
         if not texts:
             raise ValueError("texts must be non-empty")
-        if any(not text for text in texts):
+        if any(not text or not text.strip() for text in texts):
             raise ValueError("texts must be non-empty strings")
-        input_ids, attention_mask = self._tokenize(texts)
         device = _device(self.model)
-        input_ids = input_ids.to(device)
-        attention_mask = attention_mask.to(device)
         body = getattr(self.model, "model", self.model)
-        with torch.no_grad():
-            output = body(input_ids=input_ids, attention_mask=attention_mask)
-        hidden = getattr(output, "last_hidden_state", None)
-        if hidden is None:
-            hidden = output[0]
-        return last_token_pool(hidden, attention_mask).float().cpu()
+        pooled_rows: list[torch.Tensor] = []
+        for start in range(0, len(texts), self.batch_size):
+            chunk = texts[start : start + self.batch_size]
+            input_ids, attention_mask = self._tokenize(chunk)
+            input_ids = input_ids.to(device)
+            attention_mask = attention_mask.to(device)
+            with torch.no_grad():
+                output = body(input_ids=input_ids, attention_mask=attention_mask)
+            hidden = getattr(output, "last_hidden_state", None)
+            if hidden is None:
+                hidden = output[0]
+            pooled_rows.append(last_token_pool(hidden, attention_mask).float().cpu())
+            del output, hidden, input_ids, attention_mask
+        return torch.cat(pooled_rows, dim=0)
 
     def _tokenize(self, texts: list[str]) -> tuple[torch.Tensor, torch.Tensor]:
         """Right-pad, and if needed keep the suffix so the stego tail is not dropped.
@@ -191,10 +201,10 @@ class CLSDetector(Detector):
 
     def score(self, text: str, **kwargs) -> float:
         """Return P(stego | text) in (0, 1)."""
+        if not text or not text.strip():
+            raise ValueError("text must be non-empty")
         if not self._fitted or self._mean is None or self._std is None:
             raise ValueError("CLSDetector must be fit before scoring")
-        if not text:
-            raise ValueError("text must be non-empty")
         features = self._standardize(self.sequence_features([text]))
         with torch.no_grad():
             probability = stego_probability(self.head(features))[0]
