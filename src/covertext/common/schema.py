@@ -45,6 +45,16 @@ def save_records(records: list[StegoRecord], path: str | Path) -> None:
 
 
 def load_records(path: str | Path) -> list[StegoRecord]:
-    """Read a JSON array from a file and return a list of StegoRecord."""
+    """Read records from a JSON array, or from an object with a ``records`` key.
+
+    Experiment and benchmark files store ``{"summary": ..., "records": [...]}``.
+    A bare array remains valid.
+    """
     data = json.loads(Path(path).read_text(encoding="utf-8"))
+    if isinstance(data, dict):
+        if "records" not in data:
+            raise ValueError("results object is missing 'records'")
+        data = data["records"]
+    if not isinstance(data, list):
+        raise ValueError("records file must be a JSON array or an object with 'records'")
     return [StegoRecord.from_dict(item) for item in data]

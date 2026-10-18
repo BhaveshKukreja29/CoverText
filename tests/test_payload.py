@@ -1,3 +1,5 @@
+import pytest
+
 from covertext.common.payload import (
     bits_to_bytes,
     bits_to_hex,
@@ -14,6 +16,15 @@ def test_deterministic_same_seed():
 def test_different_seeds_no_collision():
     payloads = {generate_payload(64, seed=i) for i in range(5000)}
     assert len(payloads) == 5000
+
+
+def test_text_bits_roundtrip():
+    from covertext.common.payload import bits_to_text, text_to_bits
+
+    for text in ("", "hi", "héllo", "bits"):
+        assert bits_to_text(text_to_bits(text)) == text
+    with pytest.raises(ValueError, match="multiple of 8"):
+        bits_to_text("011")
 
 
 def test_correct_length():

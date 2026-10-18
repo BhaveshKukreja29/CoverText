@@ -56,6 +56,23 @@ def bits_to_hex(bits: str) -> str:
     return f"{int(padded, 2):0{width}x}"
 
 
+def text_to_bits(text: str) -> str:
+    """Encode a Unicode string as UTF-8 and return the exact bitstring.
+
+    The length is always a multiple of 8, so ``bits_to_text`` inverts this
+    with no padding ambiguity.
+    """
+    return bytes_to_bits(text.encode("utf-8"))
+
+
+def bits_to_text(bits: str) -> str:
+    """Decode a bitstring produced by ``text_to_bits`` back to Unicode."""
+    _require_bits(bits)
+    if len(bits) % 8 != 0:
+        raise ValueError("bit length must be a multiple of 8 to decode UTF-8 text")
+    return bits_to_bytes(bits).decode("utf-8")
+
+
 def hex_to_bits(hex_str: str, bit_length: int | None = None) -> str:
     """Convert hex to a bitstring (4 bits per digit).
 
